@@ -62,8 +62,8 @@ app.post('/api/v1/auth/session/logout', authController.handleAdminLogout);
 app.post('/api/v1/photo-updates/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('picture'), photoUpdateController.handleCreatePhotoUpdate);
 app.get('/api/v1/photo-updates/search', middleware.authenticateAdmin, photoUpdateController.handleGetPhotoUpdate);
 app.get('/api/v1/photo-updates/:id', middleware.authenticateAdmin, photoUpdateController.handleGetPhotoUpdateById);
-app.put('/api/v1/photo-updates/update/:id', middleware.authenticateAdmin, photoUpdateController.handleUpdatePhotoUpdateById);
-app.delete('/api/v1/photo-updates/delete/:id', middleware.authenticateAdmin, photoUpdateController.handleDeletePhotoUpdateById);
+app.put('/api/v1/photo-updates/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('picture'), photoUpdateController.handleUpdatePhotoUpdateById);
+app.delete('/api/v1/photo-updates/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), photoUpdateController.handleDeletePhotoUpdateById);
 
 /* -------------- End Photo Update Endpoint -------------- */
 
