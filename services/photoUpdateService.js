@@ -101,7 +101,7 @@ class PhotoUpdateService {
     
             return {
                 status: true,
-                status_code: 201,
+                status_code: 200,
                 message: "Successfully displayed photo update",
                 data: {
                     photoUpdate: getPhotoUpdate
