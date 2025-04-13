@@ -32,6 +32,7 @@ app.use("/storages", express.static(path.join(__dirname, "storages")));
 
 const authController = require("./controllers/authController");
 const photoUpdateController = require("./controllers/photoUpdateController");
+const productController = require("./controllers/productController");
 
 // ------------------------- End Import Controllers ------------------------- //
 
@@ -55,6 +56,13 @@ app.get('/api/v1/auth/session/me', middleware.authenticateAdmin, authController.
 app.post('/api/v1/auth/session/logout', authController.handleAdminLogout);
 
 /* -------------- End Auth Endpoint -------------- */
+
+
+/* -------------- Product Endpoint -------------- */
+
+app.get('/api/v1/products', middleware.authenticateAdmin, productController.handleGetProduct);
+
+/* -------------- End Product Endpoint -------------- */
 
 
 /* -------------- Photo Update Endpoint -------------- */
