@@ -33,6 +33,7 @@ app.use("/storages", express.static(path.join(__dirname, "storages")));
 const authController = require("./controllers/authController");
 const photoUpdateController = require("./controllers/photoUpdateController");
 const productController = require("./controllers/productController");
+const procurementController = require("./controllers/procurementController");
 
 // ------------------------- End Import Controllers ------------------------- //
 
@@ -74,6 +75,19 @@ app.put('/api/v1/photo-updates/update/:id', middleware.authenticateAdmin, middle
 app.delete('/api/v1/photo-updates/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), photoUpdateController.handleDeletePhotoUpdateById);
 
 /* -------------- End Photo Update Endpoint -------------- */
+
+/* -------------- Development Status Endpoint -------------- */
+
+/* -------------- Procurement Status Endpoint -------------- */
+
+app.post('/api/v1/procurements/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), procurementController.handleCreateProcurement);
+app.get('/api/v1/procurements/search', middleware.authenticateAdmin, procurementController.handleGetProcurement);
+app.get('/api/v1/procurements/:id', middleware.authenticateAdmin, procurementController.handleGetProcurementById);
+app.get('/api/v1/procurements/notification/timeline', middleware.authenticateAdmin, procurementController.handleGetNotification);
+
+/* -------------- End Procurement Status Endpoint -------------- */
+
+/* -------------- End Development Status Endpoint -------------- */
 
 
 // ------------------------- End Define Routes ------------------------- //
