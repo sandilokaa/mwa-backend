@@ -1,4 +1,4 @@
-const { Product } = require("../models");
+const { Products } = require("../models");
 
 class ProductRepository {
 
@@ -14,7 +14,7 @@ class ProductRepository {
             ],
         };
 
-        const getProduct = await Product.findAll(query);
+        const getProduct = await Products.findAll(query);
 
         return getProduct;
     };
