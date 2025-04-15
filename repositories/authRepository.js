@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { Users } = require("../models");
 
 class AuthRepository {
 
@@ -6,7 +6,7 @@ class AuthRepository {
 
     static async handleGetAdminByEmail({ email }) {
         
-        const getAdminByEmail = await User.findOne({
+        const getAdminByEmail = await Users.findOne({
             where : { email }
         });
 
