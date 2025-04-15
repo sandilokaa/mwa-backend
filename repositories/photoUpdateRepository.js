@@ -1,4 +1,4 @@
-const { PhotoUpdate, Product } = require("../models");
+const { PhotoUpdates, Products } = require("../models");
 const { Op, where } = require("sequelize");
 
 class PhotoUpdateRepository {
@@ -13,7 +13,7 @@ class PhotoUpdateRepository {
         information,
         picture
     }) {
-        const photoUpdateCreated = await PhotoUpdate.create({
+        const photoUpdateCreated = await PhotoUpdates.create({
             userId,
             productId, 
             category, 
@@ -41,7 +41,7 @@ class PhotoUpdateRepository {
             ],
             include: [
                 {
-                    model: Product,
+                    model: Products,
                     attributes: ['id', 'name'],
                     where: { id: productId }
                 },
@@ -52,7 +52,7 @@ class PhotoUpdateRepository {
             query.where.category = category;
         }
 
-        const getPhotoUpdate = await PhotoUpdate.findAll(query);
+        const getPhotoUpdate = await PhotoUpdates.findAll(query);
 
         return getPhotoUpdate;
     };
@@ -73,13 +73,13 @@ class PhotoUpdateRepository {
             ],
             include: [
                 {
-                    model: Product,
+                    model: Products,
                     attributes: ['id', 'name']    
                 }
             ],
         };
         
-        const getPhotoUpdate = PhotoUpdate.findOne(query);
+        const getPhotoUpdate = PhotoUpdates.findOne(query);
 
         return getPhotoUpdate;
     };
@@ -97,7 +97,7 @@ class PhotoUpdateRepository {
         information,
         picture
     }) {
-        const updatedPhoto = await PhotoUpdate.update({
+        const updatedPhoto = await PhotoUpdates.update({
             productId, 
             category, 
             dateInput, 
@@ -116,7 +116,7 @@ class PhotoUpdateRepository {
     /* ------------------- Handle Delete Photo Update By Id ------------------- */
 
     static async handleDeletePhotoUpdateById({ id }) {
-        const deletedPhotoUpdate = await PhotoUpdate.destroy({ where: { id } });
+        const deletedPhotoUpdate = await PhotoUpdates.destroy({ where: { id } });
 
         return deletedPhotoUpdate;
     };

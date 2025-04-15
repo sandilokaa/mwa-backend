@@ -15,49 +15,27 @@ class PhotoUpdateService {
     }) {
         try {
             // ------------------------- Payload Validation ------------------------- //
+            const requiredFields = {
+                productId, 
+                category, 
+                dateInput, 
+                information,
+                picture
+            };
 
-            if (!productId) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "Product is required!",
-                    data: {
-                        photoUpdate: null,
-                    },
-                };
-            }
+            const formatFieldName = (key) => key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
 
-            if (!category) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "Category is required!",
-                    data: {
-                        photoUpdate: null,
-                    },
-                };
-            }
-
-            if (!dateInput) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "Date is required!",
-                    data: {
-                        photoUpdate: null,
-                    },
-                };
-            }
-
-            if (!information) {
-                return {
-                    status: false,
-                    status_code: 400,
-                    message: "Information is required!",
-                    data: {
-                        photoUpdate: null,
-                    },
-                };
+            for (const [key, value] of Object.entries(requiredFields)) {
+                if (!value) {
+                    return {
+                        status: false,
+                        status_code: 400,
+                        message: `${formatFieldName(key)} is required!`,
+                        data: {
+                            procurement: null,
+                        },
+                    };
+                }
             }
             // ------------------------- End Payload Validation ------------------------- //
 
