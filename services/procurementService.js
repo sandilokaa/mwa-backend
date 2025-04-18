@@ -81,9 +81,9 @@ class ProcurementService {
 
     /* ------------------- Handle Get Procurement  ------------------- */
 
-    static async handleGetProcurement({ itemName, productId, prNumber }) {
+    static async handleGetProcurement({ productId, prNumber }) {
         try {
-            const getProcurement = await procurementRepository.handleGetProcurement({ itemName, productId, prNumber });
+            const getProcurement = await procurementRepository.handleGetProcurement({ productId, prNumber });
 
             return {
                 status: true,
@@ -139,9 +139,9 @@ class ProcurementService {
 
     /* ------------------- Handle Get Notification  ------------------- */
 
-    static async handleGetNotification({ daysBefore, productId }) {
+    static async handleGetNotification({ daysBefore, productId, page, limit }) {
         try {
-            const getNotification = await procurementRepository.handleGetNotification({ daysBefore, productId });
+            const getNotification = await procurementRepository.handleGetNotification({ daysBefore, productId, page, limit });
         
             return {
                 status: true,
@@ -164,6 +164,156 @@ class ProcurementService {
     };
 
     /* ------------------- End Handle Get Notification  ------------------- */
+
+
+    /* ------------------- Handle Delete Procurement By Id  ------------------- */
+
+    static async handleDeleteProcurementById({ id }) {
+        try {
+            const deletedProcurement = await procurementRepository.handleDeleteProcurementById({ id });
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Data deleted successfully",
+                data: {
+                    procurement: deletedProcurement
+                },
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    procurement: null,
+                },
+            };
+        }
+    };
+
+    /* ------------------- End Handle Delete Procurement By Id  ------------------- */
+
+
+    /* ------------------- Handle Get Summary Procurement  ------------------- */
+
+    static async handleGetSummaryProcurement({ productId }) {
+        try {
+            const getSummary = await procurementRepository.handleGetSummaryProcurement({ productId });
+        
+            return {
+                status: true,
+                status_code: 200,
+                message: 'Summary fetched successfully',
+                data: {
+                    procurement: getSummary,
+                }
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    procurement: null,
+                }
+            };
+        }
+    };
+
+    /* ------------------- End Handle Get Summary Procurement  ------------------- */
+
+
+    /* ------------------- Handle Get Metric Procurement  ------------------- */
+
+    static async handleGetMetricProcurement({ productId }) {
+        try {
+            const getMetrics = await procurementRepository.handleGetMetricProcurement({ productId });
+        
+            return {
+                status: true,
+                status_code: 200,
+                message: 'Summary fetched successfully',
+                data: {
+                    procurement: getMetrics,
+                }
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    procurement: null,
+                }
+            };
+        }
+    };
+
+    /* ------------------- End Handle Get Metric Procurement  ------------------- */
+
+
+    /* ------------------- Handle Update Procurement  ------------------- */
+
+    static async handleUpdateProcurement({ 
+        id,
+        productId,  
+        itemName,
+        submissionDate,
+        etaTarget,
+        prNumber,
+        poNumber,
+        quantity,
+        vendor
+    }) {
+        try {
+
+            const getProcurementById = await procurementRepository.handleGetProcurementById({ id });
+
+            if (getProcurementById.id == id) {
+                if (!productId) productId = getProcurementById.productId;
+                if (!itemName) itemName = getProcurementById.itemName;
+                if (!submissionDate) submissionDate = getProcurementById.submissionDate;
+                if (!etaTarget) etaTarget = getProcurementById.etaTarget;
+                if (!prNumber) prNumber = getProcurementById.prNumber;
+                if (!poNumber) poNumber = getProcurementById.poNumber;
+                if (!quantity) quantity = getProcurementById.quantity;
+                if (!vendor) vendor = getProcurementById.vendor;
+            }
+
+            const updatedProcurement = await procurementRepository.handleUpdateProcurement({ 
+                id,
+                productId,  
+                itemName,
+                submissionDate,
+                etaTarget,
+                prNumber,
+                poNumber,
+                quantity,
+                vendor
+            });
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Data updated successfully",
+                data: {
+                    procurement: updatedProcurement
+                },
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    procurement: null,
+                },
+            };
+        }
+    };
+
+    /* ------------------- End Handle Update Procurement  ------------------- */
 
 };
 

@@ -42,9 +42,9 @@ const handleCreateProcurement = async(req, res) => {
 
 const handleGetProcurement = async(req, res) => {
 
-    const { itemName, productId, prNumber } = req.query;
+    const { productId, prNumber } = req.query;
 
-    const { status, status_code, message, data} = await procurementService.handleGetProcurement({ itemName, productId, prNumber });
+    const { status, status_code, message, data} = await procurementService.handleGetProcurement({ productId, prNumber });
 
     res.status(status_code).send({
         status: status,
@@ -78,11 +78,13 @@ const handleGetProcurementById = async(req, res) => {
 /* ------------------- Handle Get Notification  ------------------- */
 
 const handleGetNotification = async(req, res) => {
-    const { productId } = req.query;
+    const { productId, page = 1, limit = 4 } = req.query;
 
     const { status, status_code, message, data} = await procurementService.handleGetNotification({
         daysBefore: 3,
-        productId
+        productId,
+        page: parseInt(page),
+        limit: parseInt(limit)
     });
 
     res.status(status_code).send({
@@ -95,9 +97,107 @@ const handleGetNotification = async(req, res) => {
 /* ------------------- End Handle Get Notification  ------------------- */
 
 
+/* ------------------- Handle Delete Procurement By Id  ------------------- */
+
+const handleDeleteProcurementById = async(req, res) => {
+    const { id } = req.params;
+
+    const { status, status_code, message, data} = await procurementService.handleDeleteProcurementById({ id });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Delete Procurement By Id  ------------------- */
+
+
+/* ------------------- Handle Get Summary Procurement  ------------------- */
+
+const handleGetSummaryProcurement = async(req, res) => {
+    const { productId } = req.query;
+
+    const { status, status_code, message, data} = await procurementService.handleGetSummaryProcurement({
+        productId
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Get Summary Procurement  ------------------- */
+
+
+/* ------------------- Handle Get Metric Procurement  ------------------- */
+
+const handleGetMetricProcurement = async(req, res) => {
+    const { productId } = req.query;
+
+    const { status, status_code, message, data} = await procurementService.handleGetMetricProcurement({
+        daysBefore: 3,
+        productId
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Get Metric Procurement  ------------------- */
+
+
+/* ------------------- Handle Update Procurement  ------------------- */
+
+const handleUpdateProcurement = async(req, res) => {
+    const { id } = req.params;
+
+    const { 
+        productId,  
+        itemName,
+        submissionDate,
+        etaTarget,
+        prNumber,
+        poNumber,
+        quantity,
+        vendor
+    } = req.body;
+
+    const { status, status_code, message, data} = await procurementService.handleUpdateProcurement({ 
+        id,
+        productId,  
+        itemName,
+        submissionDate,
+        etaTarget,
+        prNumber,
+        poNumber,
+        quantity,
+        vendor
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Update Procurement  ------------------- */
+
+
 module.exports = { 
     handleCreateProcurement,
     handleGetProcurement,
     handleGetProcurementById,
-    handleGetNotification
+    handleGetNotification,
+    handleDeleteProcurementById,
+    handleGetSummaryProcurement,
+    handleGetMetricProcurement,
+    handleUpdateProcurement
 };
