@@ -15,7 +15,7 @@ const handleAdminLogin = async(req, res) => {
     if (status) {
         res.cookie('token', data.token, {
             httpOnly: true,
-            secure: 'false',
+            secure: false,
             sameSite: 'lax',
             maxAge: 1000 * 60 * 60 * 2,
         });
@@ -57,7 +57,7 @@ const handleAdminLogout = async(req, res) => {
 
     res.clearCookie('token', {
         httpOnly: true,
-        secure: 'false',
+        secure: false,
         sameSite: 'lax',
     });
 
