@@ -315,6 +315,19 @@ class ProcurementService {
 
     /* ------------------- End Handle Update Procurement  ------------------- */
 
+
+    /* ------------------- Handle Update Status Procurement  ------------------- */
+
+    static async updateOverdueProcurements() {
+        try {
+            return procurementRepository.updateOverdueProcurements();
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    /* ------------------- End Handle Update Status Procurement  ------------------- */
+
 };
 
 module.exports = ProcurementService;

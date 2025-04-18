@@ -3,8 +3,9 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const cookieParser = require('cookie-parser');
-const fileUpload = require("./utils/fileUpload");
-const { ROLES } = require("./libs/role");
+const fileUpload = require("./libs/utils/fileUpload");
+const { ROLES } = require("./libs/consts/role");
+const { startProcurementStatusUpdater } = require ("./libs/utils/procurementStatusUpdater");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -88,6 +89,7 @@ app.delete('/api/v1/procurements/delete/:id', middleware.authenticateAdmin, midd
 app.get('/api/v1/procurements/summary/stat', middleware.authenticateAdmin, procurementController.handleGetSummaryProcurement);
 app.get('/api/v1/procurements/metrics/total', middleware.authenticateAdmin, procurementController.handleGetMetricProcurement);
 app.put('/api/v1/procurements/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), procurementController.handleUpdateProcurement);
+startProcurementStatusUpdater();
 
 /* -------------- End Procurement Status Endpoint -------------- */
 

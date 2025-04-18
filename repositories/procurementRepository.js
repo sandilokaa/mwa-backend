@@ -255,6 +255,25 @@ class ProcurementRepository {
 
     /* ------------------- End Handle Update Procurement  ------------------- */
 
+
+    /* ------------------- Handle Update Status Procurement  ------------------- */
+
+    static async updateOverdueProcurements() {
+        return Procurements.update(
+            { statusProc: 'overdue' },
+            {
+                where: {
+                    statusProc: 'on progress',
+                    etaTarget: {
+                        [Op.lt]: new Date(),
+                    },
+                },
+            }
+        );
+    };
+
+    /* ------------------- End Handle Update Status Procurement  ------------------- */
+
 };
 
 module.exports = ProcurementRepository;
