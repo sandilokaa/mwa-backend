@@ -1,5 +1,5 @@
 const photoUpdateRepository = require("../repositories/photoUpdateRepository");
-const fileRemove = require("../utils/fileRemove");
+const fileRemove = require("../libs/utils/fileRemove");
 
 class PhotoUpdateService {
 

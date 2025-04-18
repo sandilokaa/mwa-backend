@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const authRepository = require('../repositories/authRepository');
-const { ROLES } = require("../libs/role");
+const { ROLES } = require("../libs/consts/role");
 
 const authenticateAdmin = async (req, res, next) => {
     const token = req.cookies?.token;
