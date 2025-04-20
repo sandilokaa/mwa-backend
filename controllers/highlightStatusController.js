@@ -1,0 +1,1 @@
+/* Iki file anyar boloo */
