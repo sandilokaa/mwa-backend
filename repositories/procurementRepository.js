@@ -36,7 +36,9 @@ class ProcurementRepository {
 
     /* ------------------- Handle Get Procurement  ------------------- */
 
-    static async handleGetProcurement({ productId, prNumber }) {
+    static async handleGetProcurement({ productId, prNumber, page, limit }) {
+        const offset = (page - 1) * limit;
+
         const query = {
             where: {},
             attributes: [
@@ -55,6 +57,8 @@ class ProcurementRepository {
                     where: { id: productId }
                 },
             ],
+            offset,
+            limit,
         };
         
         if (prNumber) {
@@ -62,10 +66,16 @@ class ProcurementRepository {
                 [Op.like]: `%${prNumber}%`
             };
         }
+        
 
-        const getProcurement = await Procurements.findAll(query);
+        const result = await Procurements.findAndCountAll(query);
 
-        return getProcurement;
+        return {
+            procurementDataFiltered: result.rows,
+            totalProc: result.count,
+            currentPagesProc: page,
+            totalPagesProc: Math.ceil(result.count / limit),
+        };
     };
 
     /* ------------------- End Handle Get Procurement  ------------------- */

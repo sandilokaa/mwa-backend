@@ -81,9 +81,9 @@ class ProcurementService {
 
     /* ------------------- Handle Get Procurement  ------------------- */
 
-    static async handleGetProcurement({ productId, prNumber }) {
+    static async handleGetProcurement({ productId, prNumber, page, limit }) {
         try {
-            const getProcurement = await procurementRepository.handleGetProcurement({ productId, prNumber });
+            const getProcurement = await procurementRepository.handleGetProcurement({ productId, prNumber, page, limit });
 
             return {
                 status: true,

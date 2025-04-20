@@ -42,9 +42,14 @@ const handleCreateProcurement = async(req, res) => {
 
 const handleGetProcurement = async(req, res) => {
 
-    const { productId, prNumber } = req.query;
+    const { productId, prNumber, page = 1, limit = 5 } = req.query;
 
-    const { status, status_code, message, data} = await procurementService.handleGetProcurement({ productId, prNumber });
+    const { status, status_code, message, data} = await procurementService.handleGetProcurement({ 
+        productId, 
+        prNumber,
+        page: parseInt(page),
+        limit: parseInt(limit)
+    });
 
     res.status(status_code).send({
         status: status,
