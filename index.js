@@ -35,6 +35,7 @@ const authController = require("./controllers/authController");
 const photoUpdateController = require("./controllers/photoUpdateController");
 const productController = require("./controllers/productController");
 const procurementController = require("./controllers/procurementController");
+const recruitmentController = require("./controllers/recruitmentController");
 
 // ------------------------- End Import Controllers ------------------------- //
 
@@ -77,8 +78,6 @@ app.delete('/api/v1/photo-updates/delete/:id', middleware.authenticateAdmin, mid
 
 /* -------------- End Photo Update Endpoint -------------- */
 
-/* -------------- Development Status Endpoint -------------- */
-
 /* -------------- Procurement Status Endpoint -------------- */
 
 app.post('/api/v1/procurements/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), procurementController.handleCreateProcurement);
@@ -94,7 +93,16 @@ startProcurementStatusUpdater();
 
 /* -------------- End Procurement Status Endpoint -------------- */
 
-/* -------------- End Development Status Endpoint -------------- */
+
+/* -------------- Recruitment Endpoint -------------- */
+
+app.post('/api/v1/recruitments/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), recruitmentController.handleCreateRecruitment);
+app.get('/api/v1/recruitments/search', middleware.authenticateAdmin, recruitmentController.handleGetRecruitment);
+app.get('/api/v1/recruitments/:id', middleware.authenticateAdmin, recruitmentController.handleGetRecruitmentById);
+app.get('/api/v1/recruitments/metrics/total', middleware.authenticateAdmin, recruitmentController.handleGetMetricRecruitment);
+app.delete('/api/v1/recruitments/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), recruitmentController.handleDeleteRecruitmentById);
+
+/* -------------- End Recruitment Endpoint -------------- */
 
 
 // ------------------------- End Define Routes ------------------------- //
