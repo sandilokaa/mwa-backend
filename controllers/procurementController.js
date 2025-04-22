@@ -144,7 +144,6 @@ const handleGetMetricProcurement = async(req, res) => {
     const { productId } = req.query;
 
     const { status, status_code, message, data} = await procurementService.handleGetMetricProcurement({
-        daysBefore: 3,
         productId
     });
 
