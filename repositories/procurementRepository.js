@@ -289,10 +289,12 @@ class ProcurementRepository {
 
     static async handleUpdateProgressProcurement({ 
         id,
-        progress
+        progress,
+        statusProc
     }) {
         const updatedProcurement = await Procurements.update({
-            progress
+            progress,
+            statusProc
         }, {
             where: { id }
         });

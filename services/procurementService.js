@@ -343,9 +343,17 @@ class ProcurementService {
                 if (!progress) progress = getProcurementById.progress;
             }
 
+            let statusProc = getProcurementById.statusProc;
+            if (progress === "delivered") {
+                statusProc = "done"
+            } else if (statusProc !== "overdue") {
+                statusProc = "on progress"
+            }
+
             const updatedProcurement = await procurementRepository.handleUpdateProgressProcurement({ 
                 id,
-                progress
+                progress,
+                statusProc
             });
 
             return {

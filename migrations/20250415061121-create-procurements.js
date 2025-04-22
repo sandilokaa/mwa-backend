@@ -49,7 +49,7 @@ module.exports = {
         defaultValue: 'pr approved'
       },
       statusProc: {
-        type: Sequelize.ENUM('overdue', 'on progress'),
+        type: Sequelize.ENUM('overdue', 'on progress', 'done'),
         defaultValue: 'on progress'
       },
       createdAt: {
