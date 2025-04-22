@@ -196,6 +196,25 @@ const handleUpdateProcurement = async(req, res) => {
 /* ------------------- End Handle Update Procurement  ------------------- */
 
 
+/* ------------------- Handle Update Progress Procurement  ------------------- */
+
+const handleUpdateProgressProcurement = async(req, res) => {
+    const { id } = req.params;
+
+    const { progress } = req.body;
+
+    const { status, status_code, message, data} = await procurementService.handleUpdateProgressProcurement({ id, progress });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Update Progress Procurement  ------------------- */
+
+
 module.exports = { 
     handleCreateProcurement,
     handleGetProcurement,
@@ -204,5 +223,6 @@ module.exports = {
     handleDeleteProcurementById,
     handleGetSummaryProcurement,
     handleGetMetricProcurement,
-    handleUpdateProcurement
+    handleUpdateProcurement,
+    handleUpdateProgressProcurement
 };

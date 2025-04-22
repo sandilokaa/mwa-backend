@@ -89,6 +89,7 @@ app.delete('/api/v1/procurements/delete/:id', middleware.authenticateAdmin, midd
 app.get('/api/v1/procurements/summary/stat', middleware.authenticateAdmin, procurementController.handleGetSummaryProcurement);
 app.get('/api/v1/procurements/metrics/total', middleware.authenticateAdmin, procurementController.handleGetMetricProcurement);
 app.put('/api/v1/procurements/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), procurementController.handleUpdateProcurement);
+app.put('/api/v1/procurements/progress/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), procurementController.handleUpdateProgressProcurement)
 startProcurementStatusUpdater();
 
 /* -------------- End Procurement Status Endpoint -------------- */

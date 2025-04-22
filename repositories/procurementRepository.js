@@ -284,6 +284,24 @@ class ProcurementRepository {
 
     /* ------------------- End Handle Update Status Procurement  ------------------- */
 
+
+    /* ------------------- Handle Update Progress Procurement  ------------------- */
+
+    static async handleUpdateProgressProcurement({ 
+        id,
+        progress
+    }) {
+        const updatedProcurement = await Procurements.update({
+            progress
+        }, {
+            where: { id }
+        });
+
+        return updatedProcurement;
+    };
+
+    /* ------------------- End Handle Update Progress Procurement  ------------------- */
+
 };
 
 module.exports = ProcurementRepository;

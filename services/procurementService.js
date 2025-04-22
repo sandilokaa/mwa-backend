@@ -328,6 +328,49 @@ class ProcurementService {
 
     /* ------------------- End Handle Update Status Procurement  ------------------- */
 
+
+    /* ------------------- Handle Update Progress Procurement  ------------------- */
+
+    static async handleUpdateProgressProcurement({ 
+        id,
+        progress
+    }) {
+        try {
+
+            const getProcurementById = await procurementRepository.handleGetProcurementById({ id });
+
+            if (getProcurementById.id == id) {
+                if (!progress) progress = getProcurementById.progress;
+            }
+
+            const updatedProcurement = await procurementRepository.handleUpdateProgressProcurement({ 
+                id,
+                progress
+            });
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Data updated successfully",
+                data: {
+                    procurement: updatedProcurement
+                },
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    procurement: null,
+                },
+            };
+        }
+    };
+
+
+    /* ------------------- End Handle Update Progress Procurement  ------------------- */
+
 };
 
 module.exports = ProcurementService;
