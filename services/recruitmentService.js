@@ -297,7 +297,7 @@ class RecruitmentService {
             }
 
             let statusRec = getRecruitmentById.statusRec;
-            if (progress === "delivered") {
+            if (progress === "offer letter") {
                 statusRec = "done"
             } else if (statusRec !== "overdue") {
                 statusRec = "on progress"
