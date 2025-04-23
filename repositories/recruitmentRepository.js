@@ -206,7 +206,7 @@ class RecruitmentRepository {
             {
                 where: {
                     statusRec: 'on progress',
-                    etaTarget: {
+                    joinDate: {
                         [Op.lt]: new Date(),
                     },
                 },
