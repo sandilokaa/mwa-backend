@@ -185,6 +185,89 @@ class RecruitmentService {
 
     /* ------------------- End Handle Delete Recruitment By Id  ------------------- */
 
+
+    /* ------------------- Handle Update Recruitment By Id  ------------------- */
+
+    static async handleUpdateRecruitment({ 
+        id,
+        name,
+        position,
+        division,
+        submissionDate,
+        joinDate
+    }) {
+        try {
+
+            const getRecruitmentById = await recruitmentRepository.handleGetRecruitmentById({ id });
+
+            if (getRecruitmentById.id == id) {
+                if (!name) name = getProcurementById.name;
+                if (!position) position = getProcurementById.position;
+                if (!division) division = getProcurementById.division;
+                if (!submissionDate) submissionDate = getProcurementById.submissionDate;
+                if (!joinDate) joinDate = getProcurementById.joinDate;
+            }
+
+            const updatedRecruitment = await recruitmentRepository.handleUpdateRecruitment({ 
+                id,
+                name,
+                position,
+                division,
+                submissionDate,
+                joinDate
+            });
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Data updated successfully",
+                data: {
+                    recruitment: updatedRecruitment
+                },
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    recruitment: null,
+                },
+            };
+        }
+    };
+
+    /* ------------------- End Handle Update Recruitment By Id  ------------------- */
+
+
+    /* ------------------- Handle Get Notification  ------------------- */
+
+    static async handleGetNotification({ daysBefore, page, limit }) {
+        try {
+            const getNotification = await recruitmentRepository.handleGetNotification({ daysBefore, page, limit });
+        
+            return {
+                status: true,
+                status_code: 200,
+                message: 'Notification fetched successfully',
+                data: {
+                    recruitment: getNotification,
+                }
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    recruitment: null,
+                }
+            };
+        }
+    };
+
+    /* ------------------- End Handle Get Notification  ------------------- */
+
 };
 
 module.exports = RecruitmentService;

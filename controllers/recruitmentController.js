@@ -105,10 +105,65 @@ const handleDeleteRecruitmentById = async(req, res) => {
 /* ------------------- End Handle Delete Recruitment By Id  ------------------- */
 
 
+/* ------------------- Handle Update Recruitment By Id  ------------------- */
+
+const handleUpdateRecruitment = async(req, res) => {
+    const { id } = req.params;
+
+    const { 
+        name,
+        position,
+        division,
+        submissionDate,
+        joinDate
+    } = req.body;
+
+    const { status, status_code, message, data} = await recruitmentService.handleUpdateRecruitment({ 
+        id,
+        name,
+        position,
+        division,
+        submissionDate,
+        joinDate
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Update Recruitment By Id  ------------------- */
+
+
+/* ------------------- Handle Get Notification  ------------------- */
+
+const handleGetNotification = async(req, res) => {
+    const { page = 1, limit = 4 } = req.query;
+
+    const { status, status_code, message, data} = await recruitmentService.handleGetNotification({
+        daysBefore: 3,
+        page: parseInt(page),
+        limit: parseInt(limit)
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Get Notification  ------------------- */
+
+
 module.exports = {
     handleCreateRecruitment,
     handleGetRecruitment,
     handleGetRecruitmentById,
     handleGetMetricRecruitment,
-    handleDeleteRecruitmentById
+    handleDeleteRecruitmentById,
+    handleUpdateRecruitment,
+    handleGetNotification
 }

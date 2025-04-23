@@ -101,6 +101,8 @@ app.get('/api/v1/recruitments/search', middleware.authenticateAdmin, recruitment
 app.get('/api/v1/recruitments/:id', middleware.authenticateAdmin, recruitmentController.handleGetRecruitmentById);
 app.get('/api/v1/recruitments/metrics/total', middleware.authenticateAdmin, recruitmentController.handleGetMetricRecruitment);
 app.delete('/api/v1/recruitments/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), recruitmentController.handleDeleteRecruitmentById);
+app.put('/api/v1/recruitments/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), recruitmentController.handleUpdateRecruitment);
+app.get('/api/v1/recruitments/notification/timeline', middleware.authenticateAdmin, recruitmentController.handleGetNotification);
 
 /* -------------- End Recruitment Endpoint -------------- */
 

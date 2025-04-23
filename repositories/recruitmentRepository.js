@@ -123,6 +123,80 @@ class RecruitmentRepository {
 
     /* ------------------- End Handle Delete Recruitment By Id  ------------------- */
 
+
+    /* ------------------- Handle Update Recruitment By Id  ------------------- */
+
+    static async handleUpdateRecruitment({ 
+        id,
+        name,
+        position,
+        division,
+        submissionDate,
+        joinDate
+    }) {
+        const updatedRecruitment = await Recruitments.update({
+            name,
+            position,
+            division,
+            submissionDate,
+            joinDate
+        }, {
+            where: { id }
+        });
+
+        return updatedRecruitment;
+    };
+
+    /* ------------------- End Handle Update Recruitment By Id  ------------------- */
+
+
+    /* ------------------- Handle Get Notification  ------------------- */
+
+    static async handleGetNotification({ daysBefore, page, limit }) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const targetDateMin = new Date(today);
+        targetDateMin.setDate(today.getDate());
+
+        const targetDateMax = new Date(today);
+        targetDateMax.setDate(today.getDate() + daysBefore);
+        targetDateMax.setHours(23, 59, 59, 999);
+
+        const offset = (page - 1) * limit;
+
+        const query = {
+            where: {
+                joinDate: {
+                    [Op.gte]: targetDateMin,
+                    [Op.lte]: targetDateMax
+                },
+                progress: {
+                    [Op.not]: 'offer letter'
+                }
+            },
+            attributes: [
+                'id',
+                'name',
+                'joinDate',
+            ],
+            offset,
+            limit,
+            order: [['joinDate', 'ASC']],
+        };
+
+        const result = await Recruitments.findAndCountAll(query);
+
+        return {
+            data: result.rows,
+            total: result.count,
+            currentPage: page,
+            totalPages: Math.ceil(result.count / limit),
+        };
+    };
+
+    /* ------------------- End Handle Get Notification  ------------------- */
+
 };
 
 module.exports = RecruitmentRepository;
