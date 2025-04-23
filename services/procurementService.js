@@ -376,7 +376,6 @@ class ProcurementService {
         }
     };
 
-
     /* ------------------- End Handle Update Progress Procurement  ------------------- */
 
 };
