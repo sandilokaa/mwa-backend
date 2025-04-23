@@ -268,6 +268,19 @@ class RecruitmentService {
 
     /* ------------------- End Handle Get Notification  ------------------- */
 
+
+    /* ------------------- Handle Update Status Recruitment  ------------------- */
+
+    static async updateOverdueRecruitments() {
+        try {
+            return recruitmentRepository.updateOverdueRecruitments();
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    /* ------------------- End Handle Update Status Recruitment  ------------------- */
+
 };
 
 module.exports = RecruitmentService;

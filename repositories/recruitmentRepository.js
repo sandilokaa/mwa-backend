@@ -197,6 +197,25 @@ class RecruitmentRepository {
 
     /* ------------------- End Handle Get Notification  ------------------- */
 
+
+    /* ------------------- Handle Update Status Recruitment  ------------------- */
+
+    static async updateOverdueRecruitments() {
+        return Recruitments.update(
+            { statusProc: 'overdue' },
+            {
+                where: {
+                    statusRec: 'on progress',
+                    etaTarget: {
+                        [Op.lt]: new Date(),
+                    },
+                },
+            }
+        );
+    };
+
+    /* ------------------- End Handle Update Status Recruitment  ------------------- */
+
 };
 
 module.exports = RecruitmentRepository;
