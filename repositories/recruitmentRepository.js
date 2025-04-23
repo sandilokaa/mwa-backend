@@ -202,7 +202,7 @@ class RecruitmentRepository {
 
     static async updateOverdueRecruitments() {
         return Recruitments.update(
-            { statusProc: 'overdue' },
+            { statusRec: 'overdue' },
             {
                 where: {
                     statusRec: 'on progress',
