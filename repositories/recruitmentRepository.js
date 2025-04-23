@@ -216,6 +216,26 @@ class RecruitmentRepository {
 
     /* ------------------- End Handle Update Status Recruitment  ------------------- */
 
+
+    /* ------------------- Handle Update Progress Recruitment  ------------------- */
+
+    static async handleUpdateProgressRecruitment({ 
+        id,
+        progress,
+        statusRec
+    }) {
+        const updatedRecruitment = await Recruitments.update({
+            progress,
+            statusRec
+        }, {
+            where: { id }
+        });
+
+        return updatedRecruitment;
+    };
+
+    /* ------------------- End Handle Update Progress Recruitment  ------------------- */
+
 };
 
 module.exports = RecruitmentRepository;

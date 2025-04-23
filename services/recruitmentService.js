@@ -201,11 +201,11 @@ class RecruitmentService {
             const getRecruitmentById = await recruitmentRepository.handleGetRecruitmentById({ id });
 
             if (getRecruitmentById.id == id) {
-                if (!name) name = getProcurementById.name;
-                if (!position) position = getProcurementById.position;
-                if (!division) division = getProcurementById.division;
-                if (!submissionDate) submissionDate = getProcurementById.submissionDate;
-                if (!joinDate) joinDate = getProcurementById.joinDate;
+                if (!name) name = getRecruitmentById.name;
+                if (!position) position = getRecruitmentById.position;
+                if (!division) division = getRecruitmentById.division;
+                if (!submissionDate) submissionDate = getRecruitmentById.submissionDate;
+                if (!joinDate) joinDate = getRecruitmentById.joinDate;
             }
 
             const updatedRecruitment = await recruitmentRepository.handleUpdateRecruitment({ 
@@ -280,6 +280,56 @@ class RecruitmentService {
     }
 
     /* ------------------- End Handle Update Status Recruitment  ------------------- */
+
+
+    /* ------------------- Handle Update Progress Recruitment  ------------------- */
+
+    static async handleUpdateProgressRecruitment({ 
+        id,
+        progress
+    }) {
+        try {
+
+            const getRecruitmentById = await recruitmentRepository.handleGetRecruitmentById({ id });
+
+            if (getRecruitmentById.id == id) {
+                if (!progress) progress = getRecruitmentById.progress;
+            }
+
+            let statusRec = getRecruitmentById.statusRec;
+            if (progress === "delivered") {
+                statusRec = "done"
+            } else if (statusRec !== "overdue") {
+                statusRec = "on progress"
+            }
+
+            const updatedRecruitment = await recruitmentRepository.handleUpdateProgressRecruitment({ 
+                id,
+                progress,
+                statusRec
+            });
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Data updated successfully",
+                data: {
+                    recruitment: updatedRecruitment
+                },
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    recruitment: null,
+                },
+            };
+        }
+    };
+
+    /* ------------------- End Handle Update Progress Recruitment  ------------------- */
 
 };
 

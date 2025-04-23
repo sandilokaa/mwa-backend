@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const fileUpload = require("./libs/utils/fileUpload");
 const { ROLES } = require("./libs/consts/role");
 const { startProcurementStatusUpdater } = require ("./libs/utils/procurementStatusUpdater");
+const { startRecruitmentStatusUpdater } = require("./libs/utils/recruitmentStatusUpdate");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -88,7 +89,7 @@ app.delete('/api/v1/procurements/delete/:id', middleware.authenticateAdmin, midd
 app.get('/api/v1/procurements/summary/stat', middleware.authenticateAdmin, procurementController.handleGetSummaryProcurement);
 app.get('/api/v1/procurements/metrics/total', middleware.authenticateAdmin, procurementController.handleGetMetricProcurement);
 app.put('/api/v1/procurements/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), procurementController.handleUpdateProcurement);
-app.put('/api/v1/procurements/progress/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), procurementController.handleUpdateProgressProcurement)
+app.put('/api/v1/procurements/progress/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), procurementController.handleUpdateProgressProcurement);
 startProcurementStatusUpdater();
 
 /* -------------- End Procurement Status Endpoint -------------- */
@@ -103,6 +104,8 @@ app.get('/api/v1/recruitments/metrics/total', middleware.authenticateAdmin, recr
 app.delete('/api/v1/recruitments/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), recruitmentController.handleDeleteRecruitmentById);
 app.put('/api/v1/recruitments/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), recruitmentController.handleUpdateRecruitment);
 app.get('/api/v1/recruitments/notification/timeline', middleware.authenticateAdmin, recruitmentController.handleGetNotification);
+app.put('/api/v1/recruitments/progress/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), recruitmentController.handleUpdateProgressRecruitment);
+startRecruitmentStatusUpdater();
 
 /* -------------- End Recruitment Endpoint -------------- */
 
