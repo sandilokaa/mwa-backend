@@ -331,6 +331,35 @@ class RecruitmentService {
 
     /* ------------------- End Handle Update Progress Recruitment  ------------------- */
 
+
+    /* ------------------- Handle Get Summary Recruitment  ------------------- */
+
+    static async handleGetSummaryRecruitment() {
+        try {
+            const getSummary = await recruitmentRepository.handleGetSummaryRecruitment();
+        
+            return {
+                status: true,
+                status_code: 200,
+                message: 'Summary fetched successfully',
+                data: {
+                    recruitment: getSummary,
+                }
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    recruitment: null,
+                }
+            };
+        }
+    };
+
+    /* ------------------- End Handle Get Summary Recruitment  ------------------- */
+
 };
 
 module.exports = RecruitmentService;

@@ -236,6 +236,47 @@ class RecruitmentRepository {
 
     /* ------------------- End Handle Update Progress Recruitment  ------------------- */
 
+
+    /* ------------------- Handle Get Summary Recruitment  ------------------- */
+
+    static async handleGetSummaryRecruitment() {
+        const query = {
+            where: {},
+            attributes: [
+                'progress',
+                'division',
+                [sequelize.fn('COUNT', sequelize.col('progress')), 'count']
+            ],
+            group: ['progress', 'division']
+        };
+
+        const getSummary = await Recruitments.findAll(query);
+
+        const grouped = getSummary.reduce((acc, row) => {
+            const progress = row.get("progress");
+            const division = row.get("division");
+            const count = Number(row.get("count"));
+
+            const existing = acc.find(item => item.progress === progress);
+            if (existing) {
+                existing.division.push({ [division]: count });
+                existing.count += count;
+            } else {
+                acc.push({
+                    progress,
+                    division: [{ [division]: count }],
+                    count
+                });
+            }
+
+            return acc;
+        }, []);
+
+        return grouped;
+    };
+
+    /* ------------------- End Handle Get Summary Recruitment  ------------------- */
+
 };
 
 module.exports = RecruitmentRepository;

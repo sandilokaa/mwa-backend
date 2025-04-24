@@ -158,7 +158,7 @@ const handleGetNotification = async(req, res) => {
 /* ------------------- End Handle Get Notification  ------------------- */
 
 
-/* ------------------- Handle Update Progress Procurement  ------------------- */
+/* ------------------- Handle Update Progress Recruitment  ------------------- */
 
 const handleUpdateProgressRecruitment = async(req, res) => {
     const { id } = req.params;
@@ -174,7 +174,23 @@ const handleUpdateProgressRecruitment = async(req, res) => {
     });
 };
 
-/* ------------------- End Handle Update Progress Procurement  ------------------- */
+/* ------------------- End Handle Update Progress Recruitment  ------------------- */
+
+
+/* ------------------- Handle Get Summary Recruitment  ------------------- */
+
+const handleGetSummaryRecruitment = async(req, res) => {
+
+    const { status, status_code, message, data} = await recruitmentService.handleGetSummaryRecruitment();
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Get Summary Recruitment  ------------------- */
 
 
 module.exports = {
@@ -185,5 +201,6 @@ module.exports = {
     handleDeleteRecruitmentById,
     handleUpdateRecruitment,
     handleGetNotification,
-    handleUpdateProgressRecruitment
+    handleUpdateProgressRecruitment,
+    handleGetSummaryRecruitment
 }
