@@ -201,33 +201,23 @@ class PhotoUpdateService {
 
     /* ------------------- Handle Delete Photo Update By Id ------------------- */
 
-    static async handleDeletePhotoUpdateById({ id, userId }) {
+    static async handleDeletePhotoUpdateById({ id }) {
         try {
-            const getPhotoUpdate = await photoUpdateRepository.handleGetPhotoUpdate({ id });
+            const getPhotoUpdate = await photoUpdateRepository.handleGetPhotoUpdateById({ id });
 
-            if (getPhotoUpdate.userId == userId) {
-                const deletedPhotoUpdate = await photoUpdateRepository.handleDeletePhotoUpdateById({ id });
+            const deletedPhotoUpdate = await photoUpdateRepository.handleDeletePhotoUpdateById({ id });
 
-                fileRemove(getPhotoUpdate.picture);
+            fileRemove(getPhotoUpdate.picture);
 
-                return {
-                    status: true,
-                    status_code: 201,
-                    message: "Data deleted successfully",
-                    data: {
-                        photoUpdate: deletedPhotoUpdate
-                    },
-                };
-            } else {
-                return {
-                    status: false,
-                    status_code: 401,
-                    message: "Resource Unauthorized",
-                    data: {
-                        photoUpdate: null,
-                    },
-                }
-            }
+            return {
+                status: true,
+                status_code: 201,
+                message: "Data deleted successfully",
+                data: {
+                    photoUpdate: deletedPhotoUpdate
+                },
+            };
+            
         } catch (err) {
             
             return {

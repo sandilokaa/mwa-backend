@@ -106,11 +106,9 @@ const handleUpdatePhotoUpdateById = async(req, res) => {
 /* ------------------- Handle Delete Photo Update By Id ------------------- */
 
 const handleDeletePhotoUpdateById = async(req, res) => {
-    const userId = req.admin.id;
-
     const { id } = req.params;
 
-    const { status, status_code, message, data} = await photoUpdateService.handleDeletePhotoUpdateById({ id, userId });
+    const { status, status_code, message, data} = await photoUpdateService.handleDeletePhotoUpdateById({ id });
 
     res.status(status_code).send({
         status: status,
