@@ -155,8 +155,8 @@ class PhotoUpdateService {
                 }
             }
 
-            const updatedPhoto = await photoUpdateRepository.handleCreatePhotoUpdate({
-                userId,
+            const updatedPhoto = await photoUpdateRepository.handleUpdatePhotoUpdateById({
+                id,
                 productId, 
                 category, 
                 dateInput, 
