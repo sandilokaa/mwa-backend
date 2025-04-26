@@ -144,23 +144,11 @@ class PhotoUpdateService {
             const getPhotoUpdate = await photoUpdateRepository.handleGetPhotoUpdateById({ id });
 
             if (getPhotoUpdate.id == id) {
-                if (!productId) {
-                    productId = getPhotoUpdate.productId
-                }
-
-                if (!category) {
-                    category = getPhotoUpdate.category
-                }
-
-                if (!dateInput) {
-                    dateInput = getPhotoUpdate.dateInput
-                }
-
-                if (!information) {
-                    information = getPhotoUpdate.information
-                }
-
-                if (!picture){
+                if (!productId) productId = getPhotoUpdate.productId
+                if (!category) category = getPhotoUpdate.category
+                if (!dateInput) dateInput = getPhotoUpdate.dateInput
+                if (!information) information = getPhotoUpdate.information
+                if (!picture) {
                     picture = getPhotoUpdate.picture;
                 } else {
                     fileRemove(getPhotoUpdate.picture)

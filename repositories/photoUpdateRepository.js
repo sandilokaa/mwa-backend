@@ -69,13 +69,9 @@ class PhotoUpdateRepository {
                 'id',
                 'dateInput',
                 'information',
-                'picture'
-            ],
-            include: [
-                {
-                    model: Products,
-                    attributes: ['id', 'name']    
-                }
+                'picture',
+                'productId',
+                'category'
             ],
         };
         
