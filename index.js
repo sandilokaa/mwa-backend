@@ -37,6 +37,7 @@ const photoUpdateController = require("./controllers/photoUpdateController");
 const productController = require("./controllers/productController");
 const procurementController = require("./controllers/procurementController");
 const recruitmentController = require("./controllers/recruitmentController");
+const highlightIssueController = require("./controllers/highlightIssueController");
 
 // ------------------------- End Import Controllers ------------------------- //
 
@@ -79,6 +80,7 @@ app.delete('/api/v1/photo-updates/delete/:id', middleware.authenticateAdmin, mid
 
 /* -------------- End Photo Update Endpoint -------------- */
 
+
 /* -------------- Procurement Status Endpoint -------------- */
 
 app.post('/api/v1/procurements/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), procurementController.handleCreateProcurement);
@@ -109,6 +111,18 @@ app.get('/api/v1/recruitments/summary/stat', middleware.authenticateAdmin, recru
 startRecruitmentStatusUpdater();
 
 /* -------------- End Recruitment Endpoint -------------- */
+
+
+/* -------------- Highlight Issue Endpoint -------------- */
+
+app.post('/api/v1/highlight-issues/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), highlightIssueController.handleCreateHighlightIssue);
+app.get('/api/v1/highlight-issues/search', middleware.authenticateAdmin, highlightIssueController.handleGetHighlightIssue);
+app.get('/api/v1/highlight-issues/:id', middleware.authenticateAdmin, highlightIssueController.handleGetHighlightIssueById);
+app.get('/api/v1/highlight-issues/metrics/total', middleware.authenticateAdmin, highlightIssueController.handleGetMetricHighlightIssue);
+app.delete('/api/v1/highlight-issues/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), highlightIssueController.handleDeleteHighlightIssue);
+app.get('/api/v1/highlight-issues/notification/timeline', middleware.authenticateAdmin, highlightIssueController.handleGetNotification);
+
+/* -------------- End Highlight Issue Endpoint -------------- */
 
 
 // ------------------------- End Define Routes ------------------------- //
