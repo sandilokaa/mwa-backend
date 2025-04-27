@@ -6,69 +6,69 @@ class RecruitmentRepository {
     /* ------------------- Handle Create Recruitment  ------------------- */
 
     static async handleCreateRecruitment ({
+        userId,
+        name,
+        position,
+        division,
+        submissionDate,
+        joinDate
+    }) {
+        const recruitmentCreated = await Recruitments.create({
             userId,
             name,
             position,
             division,
             submissionDate,
             joinDate
-        }) {
-            const recruitmentCreated = await Recruitments.create({
-                userId,
-                name,
-                position,
-                division,
-                submissionDate,
-                joinDate
-            });
-    
-            return recruitmentCreated;
-        };
+        });
+
+        return recruitmentCreated;
+    };
 
     /* ------------------- End Handle Create Recruitment  ------------------- */
 
 
     /* ------------------- Handle Get Recruitment  ------------------- */
     
-        static async handleGetRecruitment({ name, page, limit }) {
-            const offset = (page - 1) * limit;
-    
-            const query = {
-                where: {},
-                attributes: [
-                    'id',
-                    'name',
-                    'position',
-                    'division',
-                    'joinDate',
-                    'progress',
-                    'statusRec' 
-                ],
-                offset,
-                limit,
-            };
-            
-            if (name) {
-                query.where.name = {
-                    [Op.like]: `%${name}%`
-                };
-            }
-            
-    
-            const result = await Recruitments.findAndCountAll(query);
-    
-            return {
-                recruitmentDataFiltered: result.rows,
-                totalRec: result.count,
-                currentPagesRec: page,
-                totalPagesRec: Math.ceil(result.count / limit),
-            };
+    static async handleGetRecruitment({ name, page, limit }) {
+        const offset = (page - 1) * limit;
+
+        const query = {
+            where: {},
+            attributes: [
+                'id',
+                'name',
+                'position',
+                'division',
+                'joinDate',
+                'progress',
+                'statusRec' 
+            ],
+            offset,
+            limit,
         };
-    
-        /* ------------------- End Handle Get Recruitment  ------------------- */
+        
+        if (name) {
+            query.where.name = {
+                [Op.like]: `%${name}%`
+            };
+        }
+        
+
+        const result = await Recruitments.findAndCountAll(query);
+
+        return {
+            recruitmentDataFiltered: result.rows,
+            totalRec: result.count,
+            currentPagesRec: page,
+            totalPagesRec: Math.ceil(result.count / limit),
+        };
+    };
+
+    /* ------------------- End Handle Get Recruitment  ------------------- */
 
 
-        /* ------------------- Handle Get Recruitment By Id  ------------------- */
+    /* ------------------- Handle Get Recruitment By Id  ------------------- */
 
     static async handleGetRecruitmentById({ id }) {
         const query = {
