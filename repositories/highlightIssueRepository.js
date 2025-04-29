@@ -1,4 +1,4 @@
-const { HighlightIssues, sequelize } = require("../models");
+const { HighlightIssues, sequelize, Products } = require("../models");
 const { Op } = require("sequelize");
 
 class HighlightIssueRepository {
@@ -34,7 +34,7 @@ class HighlightIssueRepository {
 
     /* ------------------- Handle Get Highlight Issue  ------------------- */
 
-static async handleGetHighlightIssue({ itemName, page, limit }) {
+static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
         const offset = (page - 1) * limit;
 
         const query = {
@@ -46,6 +46,13 @@ static async handleGetHighlightIssue({ itemName, page, limit }) {
                 'pic',
                 'dueDate',
                 'statusIssue'
+            ],
+            include: [
+                {
+                    model: Products,
+                    attributes: ['id', 'name'],
+                    where: { id: productId }
+                },
             ],
             offset,
             limit,
@@ -78,6 +85,7 @@ static async handleGetHighlightIssue({ itemName, page, limit }) {
             where: { id },
             attributes: [
                 'id',
+                'productId',
                 'itemName', 
                 'issue', 
                 'pic', 
@@ -98,11 +106,18 @@ static async handleGetHighlightIssue({ itemName, page, limit }) {
 
     /* ------------------- Handle Get Metric Highlight Issue  ------------------- */
 
-    static async handleGetMetricHighlightIssue() {
+    static async handleGetMetricHighlightIssue({ productId }) {
         const query = {
             where: {},
             attributes: [
                 [sequelize.fn('COUNT', sequelize.col('HighlightIssues.id')), 'total']
+            ],
+            include: [
+                {
+                    model: Products,
+                    attributes: ['id', 'name'],
+                    where: { id: productId }
+                },
             ],
         };
 
@@ -129,7 +144,7 @@ static async handleGetHighlightIssue({ itemName, page, limit }) {
 
     /* ------------------- Handle Get Notification  ------------------- */
 
-    static async handleGetNotification({ daysBefore, page, limit }) {
+    static async handleGetNotification({ productId, daysBefore, page, limit }) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -157,6 +172,13 @@ static async handleGetHighlightIssue({ itemName, page, limit }) {
                 'itemName',
                 'dueDate',
             ],
+            include: [
+                {
+                    model: Products,
+                    attributes: ['id', 'name'],
+                    where: { id: productId }
+                },
+            ],
             offset,
             limit,
             order: [['dueDate', 'ASC']],
@@ -173,6 +195,100 @@ static async handleGetHighlightIssue({ itemName, page, limit }) {
     };
 
     /* ------------------- End Handle Get Notification  ------------------- */
+
+
+    /* ------------------- Handle Update Highlight Issue  ------------------- */
+
+    static async handleUpdateHighlightIssue({ 
+        id, 
+        productId,
+        itemName,
+        category,
+        pic,
+        issue,
+        countermeassure,
+        dueDate
+    }) {
+        const updatedIssue = await HighlightIssues.update({
+            productId,  
+            itemName,
+            category,
+            pic,
+            issue,
+            countermeassure,
+            dueDate
+        }, {
+            where: { id }
+        });
+
+        return updatedIssue;
+    };
+
+    /* ------------------- End Handle Update Highlight Issue  ------------------- */
+
+
+    /* ------------------- Handle Update Status Highlight Issue  ------------------- */
+
+    static async handleUpdateStatusHighlightIssue({ 
+        id,
+        statusIssue
+    }) {
+        const updatedIssue = await HighlightIssues.update({
+            statusIssue
+        }, {
+            where: { id }
+        });
+
+        return updatedIssue;
+    };
+
+    /* ------------------- End Handle Update Status Highlight Issue  ------------------- */
+
+
+    /* ------------------- Handle Update Status Highlight Issue  ------------------- */
+
+    static async updateOverdueHighlightIssue() {
+        return HighlightIssues.update(
+            { statusIssue: 'late' },
+            {
+                where: {
+                    statusIssue: 'on progress',
+                    dueDate: {
+                        [Op.lt]: new Date(),
+                    },
+                },
+            }
+        );
+    };
+
+    /* ------------------- End Handle Update Status Highlight Issue  ------------------- */
+
+
+    /* ------------------- Handle Get Summary Highlight Issue  ------------------- */
+
+    static async handleGetSummaryHighlightIssue({ productId }) {
+        const query = {
+            where: {},
+            attributes: [
+                'pic',
+                [sequelize.fn('COUNT', sequelize.col('pic')), 'count']
+            ],
+            include: [
+                {
+                    model: Products,
+                    attributes: ['id', 'name'],
+                    where: { id: productId }
+                },
+            ],
+            group: ['pic']
+        };
+
+        const getSummary = await HighlightIssues.findAll(query);
+
+        return getSummary;
+    };
+
+    /* ------------------- End Handle Get Summary Highlight Issue  ------------------- */
 
 };
 

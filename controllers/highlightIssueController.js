@@ -40,9 +40,10 @@ const handleCreateHighlightIssue = async(req, res) => {
 
 const handleGetHighlightIssue = async(req, res) => {
 
-    const { itemName, page = 1, limit = 5 } = req.query;
+    const { productId, itemName, page = 1, limit = 5 } = req.query;
 
     const { status, status_code, message, data} = await highlightIssueService.handleGetHighlightIssue({ 
+        productId,
         itemName,
         page: parseInt(page),
         limit: parseInt(limit)
@@ -80,7 +81,9 @@ const handleGetHighlightIssueById = async(req, res) => {
 /* ------------------- Handle Get Metric Highlight Issue  ------------------- */
 
 const handleGetMetricHighlightIssue = async(req, res) => {
-    const { status, status_code, message, data} = await highlightIssueService.handleGetMetricHighlightIssue();
+    const { productId } = req.query;
+
+    const { status, status_code, message, data} = await highlightIssueService.handleGetMetricHighlightIssue({ productId });
 
     res.status(status_code).send({
         status: status,
@@ -112,9 +115,10 @@ const handleDeleteHighlightIssue = async(req, res) => {
 /* ------------------- Handle Get Notification  ------------------- */
 
 const handleGetNotification = async(req, res) => {
-    const { page = 1, limit = 4 } = req.query;
+    const { productId, page = 1, limit = 4 } = req.query;
 
     const { status, status_code, message, data} = await highlightIssueService.handleGetNotification({
+        productId,
         daysBefore: 3,
         page: parseInt(page),
         limit: parseInt(limit)
@@ -130,11 +134,88 @@ const handleGetNotification = async(req, res) => {
 /* ------------------- End Handle Get Notification  ------------------- */
 
 
+/* ------------------- Handle Update Highlight Issue  ------------------- */
+
+const handleUpdateHighlightIssue = async(req, res) => {
+    const { id } = req.params;
+
+    const {  
+        productId,
+        itemName,
+        category,
+        pic,
+        issue,
+        countermeassure,
+        dueDate
+    } = req.body;
+
+    const { status, status_code, message, data} = await highlightIssueService.handleUpdateHighlightIssue({ 
+        id, 
+        productId,
+        itemName,
+        category,
+        pic,
+        issue,
+        countermeassure,
+        dueDate
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Update Highlight Issue  ------------------- */
+
+
+/* ------------------- Handle Update Status Highlight Issue  ------------------- */
+
+const handleUpdateStatusHighlightIssue = async(req, res) => {
+    const { id } = req.params;
+
+    const { statusIssue } = req.body;
+
+    const { status, status_code, message, data} = await highlightIssueService.handleUpdateStatusHighlightIssue({ id, statusIssue });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Update Status Highlight Issue  ------------------- */
+
+
+/* ------------------- Handle Get Summary Highlight Issue  ------------------- */
+
+const handleGetSummaryHighlightIssue = async(req, res) => {
+    const { productId } = req.query;
+
+    const { status, status_code, message, data} = await highlightIssueService.handleGetSummaryHighlightIssue({
+        productId
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Get Summary Highlight Issue  ------------------- */
+
+
 module.exports = {
     handleCreateHighlightIssue,
     handleGetHighlightIssue,
     handleGetHighlightIssueById,
     handleGetMetricHighlightIssue,
     handleDeleteHighlightIssue,
-    handleGetNotification
+    handleGetNotification,
+    handleUpdateHighlightIssue,
+    handleUpdateStatusHighlightIssue,
+    handleGetSummaryHighlightIssue
 }

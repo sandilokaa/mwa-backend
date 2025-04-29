@@ -78,9 +78,9 @@ class HighlightIssueService {
 
     /* ------------------- Handle Get Highlight Issue  ------------------- */
 
-    static async handleGetHighlightIssue({ itemName, page, limit }) {
+    static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
         try {
-            const getHighlightIssue = await highlightIssueRepository.handleGetHighlightIssue({ itemName, page, limit });
+            const getHighlightIssue = await highlightIssueRepository.handleGetHighlightIssue({ productId, itemName, page, limit });
 
             return {
                 status: true,
@@ -136,9 +136,9 @@ class HighlightIssueService {
 
     /* ------------------- Handle Get Metric Highlight Issue  ------------------- */
 
-    static async handleGetMetricHighlightIssue() {
+    static async handleGetMetricHighlightIssue({ productId }) {
         try {
-            const getMetrics = await highlightIssueRepository.handleGetMetricHighlightIssue();
+            const getMetrics = await highlightIssueRepository.handleGetMetricHighlightIssue({ productId });
         
             return {
                 status: true,
@@ -194,9 +194,9 @@ class HighlightIssueService {
 
     /* ------------------- Handle Get Notification  ------------------- */
 
-    static async handleGetNotification({ daysBefore, page, limit }) {
+    static async handleGetNotification({ productId, daysBefore, page, limit }) {
         try {
-            const getNotification = await highlightIssueRepository.handleGetNotification({ daysBefore, page, limit });
+            const getNotification = await highlightIssueRepository.handleGetNotification({ productId, daysBefore, page, limit });
         
             return {
                 status: true,
@@ -219,6 +219,150 @@ class HighlightIssueService {
     };
 
     /* ------------------- End Handle Get Notification  ------------------- */
+
+
+    /* ------------------- Handle Update Highlight Issue  ------------------- */
+
+    static async handleUpdateHighlightIssue({ 
+        id, 
+        productId,
+        itemName,
+        category,
+        pic,
+        issue,
+        countermeassure,
+        dueDate
+    }) {
+        try {
+
+            const getHighlightIssue = await highlightIssueRepository.handleGetHighlightIssueById({ id });
+
+            if (getHighlightIssue.id == id) {
+                if (!productId) productId = getHighlightIssue.productId;
+                if (!itemName) itemName = getHighlightIssue.itemName;
+                if (!category) category = getHighlightIssue.category;
+                if (!pic) pic = getHighlightIssue.pic;
+                if (!countermeassure) countermeassure = getHighlightIssue.countermeassure;
+                if (!issue) issue = getHighlightIssue.issue;
+                if (!dueDate) dueDate = getHighlightIssue.dueDate;
+            }
+
+            const updatedIssue = await highlightIssueRepository.handleUpdateHighlightIssue({ 
+                id, 
+                productId,
+                itemName,
+                category,
+                pic,
+                issue,
+                countermeassure,
+                dueDate
+            });
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Data updated successfully",
+                data: {
+                    highlightIssue: updatedIssue
+                },
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    highlightIssue: null,
+                },
+            };
+        }
+    };
+
+    /* ------------------- End Handle Update Highlight Issue  ------------------- */
+
+
+    /* ------------------- Handle Update Status Highlight Issue  ------------------- */
+
+    static async handleUpdateStatusHighlightIssue({ 
+        id,
+        statusIssue
+    }) {
+        try {
+
+            const getHighlightIssue = await highlightIssueRepository.handleGetHighlightIssueById({ id });
+
+            if (getHighlightIssue.id == id) {
+                if (!statusIssue) statusIssue = getHighlightIssue.statusIssue;
+            }
+
+            const updatedIssue = await highlightIssueRepository.handleUpdateStatusHighlightIssue({ 
+                id,
+                statusIssue
+            });
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Data updated successfully",
+                data: {
+                    highlightIssue: updatedIssue
+                },
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    highlightIssue: null,
+                },
+            };
+        }
+    };
+
+    /* ------------------- End Handle Update Status Highlight Issue  ------------------- */
+
+
+    /* ------------------- Handle Update Status Highlight Issue  ------------------- */
+
+    static async updateOverdueHighlightIssue() {
+        try {
+            return highlightIssueRepository.updateOverdueHighlightIssue();
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    /* ------------------- End Handle Update Status Highlight Issue  ------------------- */
+
+
+    /* ------------------- Handle Get Summary Highlight Issue  ------------------- */
+
+    static async handleGetSummaryHighlightIssue({ productId }) {
+        try {
+            const getSummary = await highlightIssueRepository.handleGetSummaryHighlightIssue({ productId });
+        
+            return {
+                status: true,
+                status_code: 200,
+                message: 'Summary fetched successfully',
+                data: {
+                    highlightIssue: getSummary,
+                }
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    highlightIssue: null,
+                }
+            };
+        }
+    };
+
+    /* ------------------- End Handle Get Summary Highlight Issue  ------------------- */
 
 };
 

@@ -7,6 +7,7 @@ const fileUpload = require("./libs/utils/fileUpload");
 const { ROLES } = require("./libs/consts/role");
 const { startProcurementStatusUpdater } = require ("./libs/utils/procurementStatusUpdater");
 const { startRecruitmentStatusUpdater } = require("./libs/utils/recruitmentStatusUpdate");
+const { startIssueStatusUpdater } = require("./libs/utils/issueStatusUpdate");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -121,6 +122,10 @@ app.get('/api/v1/highlight-issues/:id', middleware.authenticateAdmin, highlightI
 app.get('/api/v1/highlight-issues/metrics/total', middleware.authenticateAdmin, highlightIssueController.handleGetMetricHighlightIssue);
 app.delete('/api/v1/highlight-issues/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), highlightIssueController.handleDeleteHighlightIssue);
 app.get('/api/v1/highlight-issues/notification/timeline', middleware.authenticateAdmin, highlightIssueController.handleGetNotification);
+app.put('/api/v1/highlight-issues/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), highlightIssueController.handleUpdateHighlightIssue);
+app.put('/api/v1/highlight-issues/status/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), highlightIssueController.handleUpdateStatusHighlightIssue);
+app.get('/api/v1/highlight-issues/summary/stat', middleware.authenticateAdmin, highlightIssueController.handleGetSummaryHighlightIssue);
+startIssueStatusUpdater();
 
 /* -------------- End Highlight Issue Endpoint -------------- */
 
