@@ -1,4 +1,5 @@
 const { Productions, Products } = require("../models");
+const { Op } = require("sequelize");
 
 class ProductionRepository {
 
@@ -67,7 +68,7 @@ static async handleGetProduction({ productId, partNumber, page, limit }) {
         const result = await Productions.findAndCountAll(query);
 
         return {
-            productDataFiltered: result.rows,
+            productionDataFiltered: result.rows,
             totalProd: result.count,
             currentPagesProd: page,
             totalPagesProd: Math.ceil(result.count / limit),

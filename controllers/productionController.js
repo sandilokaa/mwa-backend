@@ -1,4 +1,4 @@
-productionService = require("../services/productionService");
+const productionService = require("../services/productionService");
 
 /* ------------------- Handle Create Production  ------------------- */
 
