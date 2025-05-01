@@ -136,6 +136,7 @@ startIssueStatusUpdater();
 app.post('/api/v1/productions/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('prodFile'), productionController.handleCreateProduction);
 app.get('/api/v1/productions/search', middleware.authenticateAdmin, productionController.handleGetProduction);
 app.get('/api/v1/productions/:id', middleware.authenticateAdmin, productionController.handleGetProductionById);
+app.delete('/api/v1/productions/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), productionController.handleDeleteProductionById);
 
 /* -------------- End Production Endpoint -------------- */
 

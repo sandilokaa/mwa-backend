@@ -109,6 +109,17 @@ static async handleGetProduction({ productId, partNumber, page, limit }) {
 
     /* ------------------- End Handle Get Production By Id  ------------------- */
 
+
+    /* ------------------- Handle Delete Production By Id ------------------- */
+
+    static async handleDeleteProductionById({ id }) {
+        const deletedProduction = await Productions.destroy({ where: { id } });
+
+        return deletedProduction;
+    };
+
+    /* ------------------- End Handle Delete Production By Id ------------------- */
+
 };
 
 module.exports = ProductionRepository;

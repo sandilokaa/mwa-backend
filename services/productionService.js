@@ -1,4 +1,5 @@
 const productionRepository = require("../repositories/productionRepository");
+const fileRemove = require("../libs/utils/fileRemove");
 
 class ProductionService {
 
@@ -131,6 +132,41 @@ class ProductionService {
     };
 
     /* ------------------- End Handle Get Production By Id  ------------------- */
+
+
+    /* ------------------- Handle Delete Production By Id ------------------- */
+
+    static async handleDeleteProductionById({ id }) {
+        try {
+            const getProduction = await productionRepository.handleGetProductionById({ id });
+
+            const deletedProduction = await productionRepository.handleDeleteProductionById({ id });
+
+            fileRemove(getProduction.prodFile);
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Data deleted successfully",
+                data: {
+                    production: deletedProduction
+                },
+            };
+            
+        } catch (err) {
+            
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    production: null,
+                },
+            };
+        }
+    };
+
+    /* ------------------- End Handle Delete Production By Id ------------------- */
 
 };
 
