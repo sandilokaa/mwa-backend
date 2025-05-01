@@ -39,6 +39,7 @@ const productController = require("./controllers/productController");
 const procurementController = require("./controllers/procurementController");
 const recruitmentController = require("./controllers/recruitmentController");
 const highlightIssueController = require("./controllers/highlightIssueController");
+const productionController = require("./controllers/productionController");
 
 // ------------------------- End Import Controllers ------------------------- //
 
@@ -128,6 +129,15 @@ app.get('/api/v1/highlight-issues/summary/stat', middleware.authenticateAdmin, h
 startIssueStatusUpdater();
 
 /* -------------- End Highlight Issue Endpoint -------------- */
+
+
+/* -------------- Production Endpoint -------------- */
+
+app.post('/api/v1/productions/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('prodFile'), productionController.handleCreateProduction);
+app.get('/api/v1/productions/search', middleware.authenticateAdmin, productionController.handleGetProduction);
+app.get('/api/v1/productions/:id', middleware.authenticateAdmin, productionController.handleGetProductionById);
+
+/* -------------- End Production Endpoint -------------- */
 
 
 // ------------------------- End Define Routes ------------------------- //
