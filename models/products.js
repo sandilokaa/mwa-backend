@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
 
       Products.hasMany(models.Procurements);
 
+      Products.hasMany(models.HighlightIssues);
+
+      Products.hasMany(models.Productions);
+
     }
   }
   Products.init({
