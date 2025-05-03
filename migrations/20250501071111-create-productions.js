@@ -26,15 +26,15 @@ module.exports = {
       partName: {
         type: Sequelize.STRING
       },
-      partNumber: {
+      category: {
         type: Sequelize.STRING
       },
       drawingNumber: {
         type: Sequelize.STRING
       },
       productionStatus: {
-        type: Sequelize.ENUM('on progress', 'done'),
-        defaultValue: 'on progress'
+        type: Sequelize.ENUM('not yet','on going', 'done'),
+        defaultValue: 'not yet'
       },
       picProduction: {
         type: Sequelize.STRING

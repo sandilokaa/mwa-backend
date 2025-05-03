@@ -9,10 +9,10 @@ class ProductionService {
         userId,
         productId,
         partName,
-        partNumber,
         drawingNumber,
         picProduction,
         information,
+        category,
         prodFile
     }) {
         try {
@@ -20,9 +20,9 @@ class ProductionService {
             const requiredFields = {
                 productId,
                 partName,
-                partNumber,
                 drawingNumber,
                 picProduction,
+                category,
                 information
             };
             
@@ -46,10 +46,10 @@ class ProductionService {
                 userId,
                 productId,
                 partName,
-                partNumber,
                 drawingNumber,
                 picProduction,
                 information,
+                category,
                 prodFile
             });
 
@@ -78,9 +78,9 @@ class ProductionService {
 
     /* ------------------- Handle Get Production  ------------------- */
 
-    static async handleGetProduction({ productId, partNumber, page, limit }) {
+    static async handleGetProduction({ productId, partName, page, limit, category }) {
         try {
-            const getProduction = await productionRepository.handleGetProduction({ productId, partNumber, page, limit });
+            const getProduction = await productionRepository.handleGetProduction({ productId, partName, page, limit, category });
 
             return {
                 status: true,
@@ -167,6 +167,140 @@ class ProductionService {
     };
 
     /* ------------------- End Handle Delete Production By Id ------------------- */
+
+
+    /* ------------------- Handle Update Production By Id  ------------------- */
+
+    static async handleUpdateProductionById ({ 
+        id,
+        productId, 
+        partName,
+        drawingNumber,
+        picProduction,
+        information,
+        category,
+        prodFile
+    }) {
+        try {
+            const getProductionById = await productionRepository.handleGetProductionById({ id });
+
+            if (getProductionById.id == id) {
+                if (!productId) productId = getProductionById.productId
+                if (!partName) partName = getProductionById.partName
+                if (!drawingNumber) drawingNumber = getProductionById.drawingNumber
+                if (!picProduction) picProduction = getProductionById.picProduction
+                if (!information) information = getProductionById.information
+                if (!category) category = getProductionById.category
+                if (!prodFile) {
+                    prodFile = getProductionById.prodFile;
+                } else {
+                    fileRemove(getProductionById.prodFile)
+                }
+            }
+
+            const updatedProduction = await productionRepository.handleUpdateProductionById({
+                id,
+                productId, 
+                partName,
+                drawingNumber,
+                picProduction,
+                information,
+                category,
+                prodFile
+            });
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Successfully updated data",
+                data: {
+                    production: updatedProduction
+                },
+            }
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    production: null
+                },
+            }
+        }
+    };
+
+    /* ------------------- End Handle Update Production By Id  ------------------- */
+
+
+    /* ------------------- Handle Update Status Production  ------------------- */
+
+    static async handleUpdateStatusProduction({ 
+        id,
+        productionStatus
+    }) {
+        try {
+
+            const getProduction = await productionRepository.handleGetProductionById({ id });
+
+            if (getProduction.id == id) {
+                if (!productionStatus) productionStatus = getProduction.productionStatus;
+            }
+
+            const updatedProductionStatus = await productionRepository.handleUpdateStatusProduction({ 
+                id,
+                productionStatus
+            });
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Data updated successfully",
+                data: {
+                    production: updatedProductionStatus
+                },
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    production: null,
+                },
+            };
+        }
+    };
+
+    /* ------------------- End Handle Update Status Production  ------------------- */
+
+
+    /* ------------------- Handle Get Summary Status Production  ------------------- */
+
+    static async handleGetSummaryStatusProduction({ productId, category }) {
+        try {
+            const getSummary = await productionRepository.handleGetSummaryStatusProduction({ productId, category });
+        
+            return {
+                status: true,
+                status_code: 200,
+                message: 'Summary fetched successfully',
+                data: {
+                    production: getSummary,
+                }
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    production: null,
+                }
+            };
+        }
+    };
+
+    /* ------------------- End Handle Get Summary Status Production  ------------------- */
 
 };
 

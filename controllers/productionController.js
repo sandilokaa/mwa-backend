@@ -14,20 +14,20 @@ const handleCreateProduction = async(req, res) => {
     const { 
         productId,  
         partName,
-        partNumber,
         drawingNumber,
         picProduction,
-        information
+        information,
+        category
     } = req.body;
 
     const { status, status_code, message, data} = await productionService.handleCreateProduction({
         userId,
         productId,
         partName,
-        partNumber,
         drawingNumber,
         picProduction,
         information,
+        category,
         prodFile
     });
 
@@ -45,11 +45,12 @@ const handleCreateProduction = async(req, res) => {
 
 const handleGetProduction = async(req, res) => {
 
-    const { productId, partNumber, page = 1, limit = 5 } = req.query;
+    const { productId, partName, page = 1, limit = 5, category } = req.query;
 
     const { status, status_code, message, data} = await productionService.handleGetProduction({ 
         productId, 
-        partNumber,
+        partName,
+        category,
         page: parseInt(page),
         limit: parseInt(limit)
     });
@@ -100,9 +101,92 @@ const handleDeleteProductionById = async(req, res) => {
 /* ------------------- End Handle Delete Production By Id ------------------- */
 
 
+/* ------------------- Handle Update Production By Id  ------------------- */
+
+const handleUpdateProductionById = async(req, res) => {
+    const { id } = req.params;
+
+    let prodFile = "";
+
+    if (req.file) {
+        prodFile = req.file.path;
+    }
+
+    const { 
+        productId,  
+        partName,
+        drawingNumber,
+        picProduction,
+        information,
+        category
+    } = req.body;
+
+    const { status, status_code, message, data} = await productionService.handleUpdateProductionById({
+        id,
+        productId, 
+        partName,
+        drawingNumber,
+        picProduction,
+        information,
+        category,
+        prodFile
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Update Production By Id  ------------------- */
+
+
+/* ------------------- Handle Update Status Production  ------------------- */
+
+const handleUpdateStatusProduction = async(req, res) => {
+    const { id } = req.params;
+
+    const { productionStatus } = req.body;
+
+    const { status, status_code, message, data} = await productionService.handleUpdateStatusProduction({ id, productionStatus });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Update Status Production  ------------------- */
+
+
+/* ------------------- Handle Get Summary Status Production  ------------------- */
+
+const handleGetSummaryStatusProduction = async(req, res) => {
+    const { productId, category } = req.query;
+
+    const { status, status_code, message, data} = await productionService.handleGetSummaryStatusProduction({
+        productId,
+        category
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Get Summary Status Production  ------------------- */
+
+
 module.exports = {
     handleCreateProduction,
     handleGetProduction,
     handleGetProductionById,
-    handleDeleteProductionById
+    handleDeleteProductionById,
+    handleUpdateProductionById,
+    handleUpdateStatusProduction,
+    handleGetSummaryStatusProduction
 }

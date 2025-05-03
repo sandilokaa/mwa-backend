@@ -1,4 +1,4 @@
-const { Productions, Products } = require("../models");
+const { Productions, Products, sequelize } = require("../models");
 const { Op } = require("sequelize");
 
 class ProductionRepository {
@@ -9,7 +9,7 @@ class ProductionRepository {
         userId,
         productId,
         partName,
-        partNumber,
+        category,
         drawingNumber,
         picProduction,
         information,
@@ -19,7 +19,7 @@ class ProductionRepository {
             userId,
             productId,  
             partName,
-            partNumber,
+            category,
             drawingNumber,
             picProduction,
             information,
@@ -34,7 +34,7 @@ class ProductionRepository {
 
     /* ------------------- Handle Get Production  ------------------- */
 
-static async handleGetProduction({ productId, partNumber, page, limit }) {
+    static async handleGetProduction({ productId, partName, page, limit, category }) {
         const offset = (page - 1) * limit;
 
         const query = {
@@ -43,7 +43,7 @@ static async handleGetProduction({ productId, partNumber, page, limit }) {
                 'id',
                 'partName',
                 'drawingNumber',
-                'partNumber',
+                'category',
                 'information',
                 'productionStatus',
             ],
@@ -58,9 +58,15 @@ static async handleGetProduction({ productId, partNumber, page, limit }) {
             limit,
         };
         
-        if (partNumber) {
-            query.where.partNumber = {
-                [Op.like]: `%${partNumber}%`
+        if (partName) {
+            query.where.partName = {
+                [Op.like]: `%${partName}%`
+            };
+        }
+        
+        if (category) {
+            query.where.category = {
+                [Op.like]: `%${category}%`
             };
         }
         
@@ -88,7 +94,7 @@ static async handleGetProduction({ productId, partNumber, page, limit }) {
                 'productId',
                 'partName',
                 'drawingNumber',
-                'partNumber',
+                'category',
                 'picProduction',
                 'productionStatus',
                 'information',
@@ -119,6 +125,87 @@ static async handleGetProduction({ productId, partNumber, page, limit }) {
     };
 
     /* ------------------- End Handle Delete Production By Id ------------------- */
+
+
+    /* ------------------- Handle Update Production By Id  ------------------- */
+
+    static async handleUpdateProductionById({
+        id,
+        productId, 
+        partName,
+        drawingNumber,
+        picProduction,
+        information,
+        category,
+        prodFile
+    }) {
+        const updatedProduction = await Productions.update({
+            productId, 
+            partName,
+            drawingNumber,
+            picProduction,
+            information,
+            category,
+            prodFile
+        }, {
+            where: { id }
+        });
+
+        return updatedProduction;
+    };
+
+    /* ------------------- End Handle Update Production By Id  ------------------- */
+
+
+    /* ------------------- Handle Update Status Production  ------------------- */
+
+    static async handleUpdateStatusProduction({ 
+        id,
+        productionStatus
+    }) {
+        const updatedProductionStatus = await Productions.update({
+            productionStatus
+        }, {
+            where: { id }
+        });
+
+        return updatedProductionStatus;
+    };
+
+    /* ------------------- End Handle Update Status Production  ------------------- */
+
+
+    /* ------------------- Handle Get Summary Status Production  ------------------- */
+
+    static async handleGetSummaryStatusProduction({ productId, category }) {
+        const query = {
+            where: {},
+            attributes: [
+                'productionStatus',
+                [sequelize.fn('COUNT', sequelize.col('productionStatus')), 'count']
+            ],
+            include: [
+                {
+                    model: Products,
+                    attributes: ['id', 'name'],
+                    where: { id: productId }
+                },
+            ],
+            group: ['productionStatus']
+        };
+
+        if (category) {
+            query.where.category = {
+                [Op.like]: `%${category}%`
+            };
+        }
+
+        const getSummary = await Productions.findAll(query);
+
+        return getSummary;
+    };
+
+    /* ------------------- End Handle Get Summary Status Production  ------------------- */
 
 };
 

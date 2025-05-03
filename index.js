@@ -137,6 +137,9 @@ app.post('/api/v1/productions/create', middleware.authenticateAdmin, middleware.
 app.get('/api/v1/productions/search', middleware.authenticateAdmin, productionController.handleGetProduction);
 app.get('/api/v1/productions/:id', middleware.authenticateAdmin, productionController.handleGetProductionById);
 app.delete('/api/v1/productions/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), productionController.handleDeleteProductionById);
+app.put('/api/v1/productions/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('prodFile'), productionController.handleUpdateProductionById);
+app.put('/api/v1/productions/status/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), productionController.handleUpdateStatusProduction);
+app.get('/api/v1/productions/summary/status/stat', middleware.authenticateAdmin, productionController.handleGetSummaryStatusProduction);
 
 /* -------------- End Production Endpoint -------------- */
 
