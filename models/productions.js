@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'not yet',
     },
     picProduction: DataTypes.STRING,
-    information: DataTypes.TEXT,
+    remark: DataTypes.TEXT,
     prodFile: DataTypes.TEXT
   }, {
     sequelize,

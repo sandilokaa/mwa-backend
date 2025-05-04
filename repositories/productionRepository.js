@@ -12,7 +12,7 @@ class ProductionRepository {
         category,
         drawingNumber,
         picProduction,
-        information,
+        remark,
         prodFile
     }) {
         const productionCreated = await Productions.create({
@@ -22,7 +22,7 @@ class ProductionRepository {
             category,
             drawingNumber,
             picProduction,
-            information,
+            remark,
             prodFile
         });
 
@@ -44,7 +44,7 @@ class ProductionRepository {
                 'partName',
                 'drawingNumber',
                 'category',
-                'information',
+                'remark',
                 'productionStatus',
             ],
             include: [
@@ -97,7 +97,7 @@ class ProductionRepository {
                 'category',
                 'picProduction',
                 'productionStatus',
-                'information',
+                'remark',
                 'prodFile',
             ],
             include: [
@@ -135,7 +135,7 @@ class ProductionRepository {
         partName,
         drawingNumber,
         picProduction,
-        information,
+        remark,
         category,
         prodFile
     }) {
@@ -144,7 +144,7 @@ class ProductionRepository {
             partName,
             drawingNumber,
             picProduction,
-            information,
+            remark,
             category,
             prodFile
         }, {

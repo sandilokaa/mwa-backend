@@ -144,6 +144,13 @@ app.get('/api/v1/productions/summary/status/stat', middleware.authenticateAdmin,
 /* -------------- End Production Endpoint -------------- */
 
 
+/* -------------- Engineering Endpoint -------------- */
+
+
+
+/* -------------- End Engineering Endpoint -------------- */
+
+
 // ------------------------- End Define Routes ------------------------- //
 
 

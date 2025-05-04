@@ -16,7 +16,7 @@ const handleCreateProduction = async(req, res) => {
         partName,
         drawingNumber,
         picProduction,
-        information,
+        remark,
         category
     } = req.body;
 
@@ -26,7 +26,7 @@ const handleCreateProduction = async(req, res) => {
         partName,
         drawingNumber,
         picProduction,
-        information,
+        remark,
         category,
         prodFile
     });
@@ -117,7 +117,7 @@ const handleUpdateProductionById = async(req, res) => {
         partName,
         drawingNumber,
         picProduction,
-        information,
+        remark,
         category
     } = req.body;
 
@@ -127,7 +127,7 @@ const handleUpdateProductionById = async(req, res) => {
         partName,
         drawingNumber,
         picProduction,
-        information,
+        remark,
         category,
         prodFile
     });

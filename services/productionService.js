@@ -11,7 +11,7 @@ class ProductionService {
         partName,
         drawingNumber,
         picProduction,
-        information,
+        remark,
         category,
         prodFile
     }) {
@@ -23,7 +23,7 @@ class ProductionService {
                 drawingNumber,
                 picProduction,
                 category,
-                information
+                remark
             };
             
             const formatFieldName = (key) => key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
@@ -48,7 +48,7 @@ class ProductionService {
                 partName,
                 drawingNumber,
                 picProduction,
-                information,
+                remark,
                 category,
                 prodFile
             });
@@ -177,7 +177,7 @@ class ProductionService {
         partName,
         drawingNumber,
         picProduction,
-        information,
+        remark,
         category,
         prodFile
     }) {
@@ -189,7 +189,7 @@ class ProductionService {
                 if (!partName) partName = getProductionById.partName
                 if (!drawingNumber) drawingNumber = getProductionById.drawingNumber
                 if (!picProduction) picProduction = getProductionById.picProduction
-                if (!information) information = getProductionById.information
+                if (!remark) remark = getProductionById.remark
                 if (!category) category = getProductionById.category
                 if (!prodFile) {
                     prodFile = getProductionById.prodFile;
@@ -204,7 +204,7 @@ class ProductionService {
                 partName,
                 drawingNumber,
                 picProduction,
-                information,
+                remark,
                 category,
                 prodFile
             });

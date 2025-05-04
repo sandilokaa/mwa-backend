@@ -39,7 +39,7 @@ module.exports = {
       picProduction: {
         type: Sequelize.STRING
       },
-      information: {
+      remark: {
         type: Sequelize.TEXT
       },
       prodFile: {
