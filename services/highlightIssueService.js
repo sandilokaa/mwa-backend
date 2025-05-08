@@ -364,6 +364,46 @@ class HighlightIssueService {
 
     /* ------------------- End Handle Get Summary Highlight Issue  ------------------- */
 
+
+    /* ------------------- Handle Revision Date Highlight Issue  ------------------- */
+
+    static async handleRevisionDateHighilightIssue({ id, statusIssue, revisionDate }) {
+        try {
+            const getHighlightIssue = await highlightIssueRepository.handleGetHighlightIssueById({ id });
+
+            if (getHighlightIssue.id == id) {
+                if (!statusIssue) statusIssue = getHighlightIssue.statusIssue;
+                if (!revisionDate) revisionDate = getHighlightIssue.revisionDate;
+            }
+
+            const updatedRevisionDate = await highlightIssueRepository.handleRevisionDateHighilightIssue({ 
+                id,
+                statusIssue: "done",
+                revisionDate
+            });
+        
+            return {
+                status: true,
+                status_code: 200,
+                message: 'Summary fetched successfully',
+                data: {
+                    highlightIssue: updatedRevisionDate,
+                }
+            };
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    highlightIssue: null,
+                }
+            };
+        }
+    };
+
+    /* ------------------- End Handle Revision Date Highlight Issue  ------------------- */
+
 };
 
 module.exports = HighlightIssueService;

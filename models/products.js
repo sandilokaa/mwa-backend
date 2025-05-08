@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
 
       Products.hasMany(models.HighlightIssues);
 
+      Products.hasMany(models.Engineerings);
+
       Products.hasMany(models.Productions);
 
     }

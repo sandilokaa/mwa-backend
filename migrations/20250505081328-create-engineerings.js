@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Productions', {
+    await queryInterface.createTable('Engineerings', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -32,17 +32,43 @@ module.exports = {
       drawingNumber: {
         type: Sequelize.STRING
       },
-      productionStatus: {
-        type: Sequelize.ENUM('not yet','on going', 'done'),
+      status3D: {
+        type: Sequelize.ENUM('not yet', 'on going', 'done'),
         defaultValue: 'not yet'
       },
-      picProduction: {
+      status2D: {
+        type: Sequelize.ENUM('not yet', 'on going', 'done'),
+        defaultValue: 'not yet'
+      },
+      statusDXF: {
+        type: Sequelize.ENUM('not yet', 'on going', 'done'),
+        defaultValue: 'not yet'
+      },
+      pic3D: {
         type: Sequelize.STRING
+      },
+      pic2DDXF: {
+        type: Sequelize.STRING
+      },
+      startDate: {
+        type: Sequelize.DATE
+      },
+      dateRequired: {
+        type: Sequelize.DATE
+      },
+      price: {
+        type: Sequelize.INTEGER
+      },
+      quantity: {
+        type: Sequelize.INTEGER
+      },
+      totalPrice: {
+        type: Sequelize.INTEGER
       },
       remark: {
         type: Sequelize.TEXT
       },
-      prodFile: {
+      engineFile: {
         type: Sequelize.TEXT
       },
       createdAt: {
@@ -56,6 +82,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Productions');
+    await queryInterface.dropTable('Engineerings');
   }
 };

@@ -208,6 +208,29 @@ const handleGetSummaryHighlightIssue = async(req, res) => {
 /* ------------------- End Handle Get Summary Highlight Issue  ------------------- */
 
 
+/* ------------------- Handle Revision Date Highlight Issue  ------------------- */
+
+const handleRevisionDateHighilightIssue = async(req, res) => {
+    const { id } = req.params;
+
+    const { statusIssue, revisionDate } = req.body;
+
+    const { status, status_code, message, data} = await highlightIssueService.handleRevisionDateHighilightIssue({
+        id,
+        revisionDate,
+        statusIssue
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Revision Date Highlight Issue  ------------------- */
+
+
 module.exports = {
     handleCreateHighlightIssue,
     handleGetHighlightIssue,
@@ -217,5 +240,6 @@ module.exports = {
     handleGetNotification,
     handleUpdateHighlightIssue,
     handleUpdateStatusHighlightIssue,
-    handleGetSummaryHighlightIssue
+    handleGetSummaryHighlightIssue,
+    handleRevisionDateHighilightIssue
 }

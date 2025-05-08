@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('HighlightIssues', {
+    await queryInterface.createTable('Productions', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -23,30 +23,37 @@ module.exports = {
           key: 'id'
         }
       },
-      itemName: {
+      engineeringId: {
+        type: Sequelize.INTEGER,
+        reference: {
+          model: 'Engineerings',
+          key: 'id'
+        }
+      },
+      partName: {
         type: Sequelize.STRING
       },
       category: {
         type: Sequelize.STRING
       },
-      pic: {
+      drawingNumber: {
         type: Sequelize.STRING
       },
-      issue: {
+      category: {
+        type: Sequelize.STRING
+      },
+      productionStatus: {
+        type: Sequelize.ENUM('not yet', 'on going', 'done'),
+        defaultValue: 'not yet'
+      },
+      picProduction: {
+        type: Sequelize.STRING
+      },
+      remark: {
         type: Sequelize.TEXT
       },
-      countermeassure: {
+      prodFile: {
         type: Sequelize.TEXT
-      },
-      dueDate: {
-        type: Sequelize.DATE
-      },
-      revisionDate: {
-        type: Sequelize.DATE
-      },
-      statusIssue: {
-        type: Sequelize.ENUM('on progress', 'overdue', 'done'),
-        defaultValue: 'on progress'
       },
       createdAt: {
         allowNull: false,
@@ -59,6 +66,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('HighlightIssues');
+    await queryInterface.dropTable('Productions');
   }
 };

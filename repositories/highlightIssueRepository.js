@@ -45,6 +45,7 @@ static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
                 'issue',
                 'pic',
                 'dueDate',
+                'revisionDate',
                 'statusIssue'
             ],
             include: [
@@ -91,6 +92,7 @@ static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
                 'pic', 
                 'countermeassure', 
                 'dueDate', 
+                'revisionDate',
                 'statusIssue', 
                 'category'
             ],
@@ -249,7 +251,7 @@ static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
 
     static async updateOverdueHighlightIssue() {
         return HighlightIssues.update(
-            { statusIssue: 'late' },
+            { statusIssue: 'overdue' },
             {
                 where: {
                     statusIssue: 'on progress',
@@ -289,6 +291,26 @@ static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
     };
 
     /* ------------------- End Handle Get Summary Highlight Issue  ------------------- */
+
+
+    /* ------------------- Handle Revision Date Highlight Issue  ------------------- */
+
+    static async handleRevisionDateHighilightIssue({ 
+        id,
+        statusIssue,
+        revisionDate
+    }) {
+        const updatedRevisionDate = await HighlightIssues.update({
+            statusIssue,
+            revisionDate
+        }, {
+            where: { id }
+        });
+
+        return updatedRevisionDate;
+    };
+
+    /* ------------------- End Handle Revision Date Highlight Issue  ------------------- */
 
 };
 

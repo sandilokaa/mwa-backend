@@ -8,6 +8,7 @@ class ProductionRepository {
     static async handleCreateProduction ({
         userId,
         productId,
+        engineeringId,
         partName,
         category,
         drawingNumber,
@@ -17,7 +18,8 @@ class ProductionRepository {
     }) {
         const productionCreated = await Productions.create({
             userId,
-            productId,  
+            productId, 
+            engineeringId, 
             partName,
             category,
             drawingNumber,

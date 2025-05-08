@@ -28,8 +28,9 @@ module.exports = (sequelize, DataTypes) => {
     issue: DataTypes.TEXT,
     countermeassure: DataTypes.TEXT,
     dueDate: DataTypes.DATE,
+    revisionDate: DataTypes.DATE,
     statusIssue: {
-      type: DataTypes.ENUM('on progress', 'late', 'finish'),
+      type: DataTypes.ENUM('on progress', 'overdue', 'done'),
       defaultValue: 'on progress',
     }
   }, {

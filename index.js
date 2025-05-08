@@ -39,6 +39,7 @@ const productController = require("./controllers/productController");
 const procurementController = require("./controllers/procurementController");
 const recruitmentController = require("./controllers/recruitmentController");
 const highlightIssueController = require("./controllers/highlightIssueController");
+const engineeringController = require("./controllers/engineeringController");
 const productionController = require("./controllers/productionController");
 
 // ------------------------- End Import Controllers ------------------------- //
@@ -126,9 +127,17 @@ app.get('/api/v1/highlight-issues/notification/timeline', middleware.authenticat
 app.put('/api/v1/highlight-issues/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), highlightIssueController.handleUpdateHighlightIssue);
 app.put('/api/v1/highlight-issues/status/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), highlightIssueController.handleUpdateStatusHighlightIssue);
 app.get('/api/v1/highlight-issues/summary/stat', middleware.authenticateAdmin, highlightIssueController.handleGetSummaryHighlightIssue);
+app.put('/api/v1/highlight-issues/revision/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), highlightIssueController.handleRevisionDateHighilightIssue);
 startIssueStatusUpdater();
 
 /* -------------- End Highlight Issue Endpoint -------------- */
+
+
+/* -------------- Engineering Endpoint -------------- */
+
+app.post('/api/v1/engineerings/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('engineFile'), engineeringController.handleCreateEngineering);
+
+/* -------------- End Engineering Endpoint -------------- */
 
 
 /* -------------- Production Endpoint -------------- */

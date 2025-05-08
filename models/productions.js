@@ -10,8 +10,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-
       Productions.belongsTo(models.Users, {
         foreignKey: 'userId'
       });
@@ -19,14 +17,20 @@ module.exports = (sequelize, DataTypes) => {
       Productions.belongsTo(models.Products, {
         foreignKey: 'productId'
       });
+      
+      Productions.belongsTo(models.Engineerings, {
+        foreignKey: 'engineeringId'
+      });
     }
   }
   Productions.init({
     userId: DataTypes.INTEGER,
     productId: DataTypes.INTEGER,
+    engineeringId: DataTypes.INTEGER,
     partName: DataTypes.STRING,
     category: DataTypes.STRING,
     drawingNumber: DataTypes.STRING,
+    category: DataTypes.STRING,
     productionStatus: {
       type: DataTypes.ENUM('not yet', 'on going', 'done'),
       defaultValue: 'not yet',
