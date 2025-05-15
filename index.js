@@ -41,6 +41,7 @@ const recruitmentController = require("./controllers/recruitmentController");
 const highlightIssueController = require("./controllers/highlightIssueController");
 const engineeringController = require("./controllers/engineeringController");
 const productionController = require("./controllers/productionController");
+const stylingDesignController = require("./controllers/stylingDesignController");
 
 // ------------------------- End Import Controllers ------------------------- //
 
@@ -135,29 +136,34 @@ startIssueStatusUpdater();
 
 /* -------------- Engineering Endpoint -------------- */
 
-app.post('/api/v1/engineerings/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('engineFile'), engineeringController.handleCreateEngineering);
+app.post('/api/v1/engineerings/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('picture'), engineeringController.handleCreateEngineering);
+app.get('/api/v1/engineerings/search', middleware.authenticateAdmin, engineeringController.handleGetEngineering);
+app.get('/api/v1/engineerings/:id', middleware.authenticateAdmin, engineeringController.handleGetEngineeringById);
+app.delete('/api/v1/engineerings/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), engineeringController.handleDeleteEngineeringById);
+app.get('/api/v1/engineerings/summary/status/stat', middleware.authenticateAdmin, engineeringController.handleGetSummaryStatusEngineering);
+app.put('/api/v1/engineerings/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('picture'), engineeringController.handleUpdateEngineeringById);
+app.put('/api/v1/engineerings/status/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), engineeringController.handleUpdateStatusEngineering);
 
 /* -------------- End Engineering Endpoint -------------- */
 
 
 /* -------------- Production Endpoint -------------- */
 
-app.post('/api/v1/productions/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('prodFile'), productionController.handleCreateProduction);
 app.get('/api/v1/productions/search', middleware.authenticateAdmin, productionController.handleGetProduction);
 app.get('/api/v1/productions/:id', middleware.authenticateAdmin, productionController.handleGetProductionById);
-app.delete('/api/v1/productions/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), productionController.handleDeleteProductionById);
-app.put('/api/v1/productions/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('prodFile'), productionController.handleUpdateProductionById);
+app.put('/api/v1/productions/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), productionController.handleUpdateProductionById);
 app.put('/api/v1/productions/status/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), productionController.handleUpdateStatusProduction);
 app.get('/api/v1/productions/summary/status/stat', middleware.authenticateAdmin, productionController.handleGetSummaryStatusProduction);
 
 /* -------------- End Production Endpoint -------------- */
 
 
-/* -------------- Engineering Endpoint -------------- */
+/* -------------- Styling Design Endpoint -------------- */
 
+app.post('/api/v1/styling-designs/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.array('picture', 10), stylingDesignController.handleCreateStylingDesign);
+app.get('/api/v1/styling-designs/search', middleware.authenticateAdmin, stylingDesignController.handleGetStylingDesign);
 
-
-/* -------------- End Engineering Endpoint -------------- */
+/* -------------- End Styling Design Endpoint -------------- */
 
 
 // ------------------------- End Define Routes ------------------------- //
