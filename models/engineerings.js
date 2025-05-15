@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER,
     totalPrice: DataTypes.INTEGER,
     remark: DataTypes.TEXT,
-    engineFile: DataTypes.TEXT
+    picture: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Engineerings',

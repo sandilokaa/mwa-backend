@@ -68,7 +68,7 @@ module.exports = {
       remark: {
         type: Sequelize.TEXT
       },
-      engineFile: {
+      picture: {
         type: Sequelize.TEXT
       },
       createdAt: {

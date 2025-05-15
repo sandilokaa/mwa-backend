@@ -1,45 +1,5 @@
 const productionService = require("../services/productionService");
 
-/* ------------------- Handle Create Production  ------------------- */
-
-const handleCreateProduction = async(req, res) => {
-    const userId = req.admin.id;
-
-    let prodFile = "";
-
-    if (req.file) {
-        prodFile = req.file.path;
-    }
-
-    const { 
-        productId,  
-        partName,
-        drawingNumber,
-        picProduction,
-        remark,
-        category
-    } = req.body;
-
-    const { status, status_code, message, data} = await productionService.handleCreateProduction({
-        userId,
-        productId,
-        partName,
-        drawingNumber,
-        picProduction,
-        remark,
-        category,
-        prodFile
-    });
-
-    res.status(status_code).send({
-        status: status,
-        message: message,
-        data: data,
-    });
-};
-
-/* ------------------- End Handle Create Production  ------------------- */
-
 
 /* ------------------- Handle Get Production  ------------------- */
 
@@ -84,52 +44,18 @@ const handleGetProductionById = async(req, res) => {
 /* ------------------- End Handle Get Production By Id  ------------------- */
 
 
-/* ------------------- Handle Delete Production By Id ------------------- */
-
-const handleDeleteProductionById = async(req, res) => {
-    const { id } = req.params;
-
-    const { status, status_code, message, data} = await productionService.handleDeleteProductionById({ id });
-
-    res.status(status_code).send({
-        status: status,
-        message: message,
-        data: data,
-    });
-};
-
-/* ------------------- End Handle Delete Production By Id ------------------- */
-
-
 /* ------------------- Handle Update Production By Id  ------------------- */
 
 const handleUpdateProductionById = async(req, res) => {
     const { id } = req.params;
 
-    let prodFile = "";
-
-    if (req.file) {
-        prodFile = req.file.path;
-    }
-
     const { 
-        productId,  
-        partName,
-        drawingNumber,
         picProduction,
-        remark,
-        category
     } = req.body;
 
     const { status, status_code, message, data} = await productionService.handleUpdateProductionById({
         id,
-        productId, 
-        partName,
-        drawingNumber,
         picProduction,
-        remark,
-        category,
-        prodFile
     });
 
     res.status(status_code).send({
@@ -182,10 +108,8 @@ const handleGetSummaryStatusProduction = async(req, res) => {
 
 
 module.exports = {
-    handleCreateProduction,
     handleGetProduction,
     handleGetProductionById,
-    handleDeleteProductionById,
     handleUpdateProductionById,
     handleUpdateStatusProduction,
     handleGetSummaryStatusProduction
