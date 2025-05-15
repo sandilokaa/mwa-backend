@@ -194,7 +194,7 @@ class ProcurementRepository {
             include: [
                 {
                     model: Products,
-                    attributes: ['id', 'name'],
+                    attributes: ['id'],
                     where: { id: productId }
                 },
             ],
@@ -220,7 +220,7 @@ class ProcurementRepository {
             include: [
                 {
                     model: Products,
-                    attributes: ['id', 'name'],
+                    attributes: ['id'],
                     where: { id: productId }
                 },
             ],

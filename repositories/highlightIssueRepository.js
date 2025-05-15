@@ -117,7 +117,7 @@ static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
             include: [
                 {
                     model: Products,
-                    attributes: ['id', 'name'],
+                    attributes: ['id'],
                     where: { id: productId }
                 },
             ],
@@ -177,7 +177,7 @@ static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
             include: [
                 {
                     model: Products,
-                    attributes: ['id', 'name'],
+                    attributes: ['id'],
                     where: { id: productId }
                 },
             ],
@@ -278,7 +278,7 @@ static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
             include: [
                 {
                     model: Products,
-                    attributes: ['id', 'name'],
+                    attributes: ['id'],
                     where: { id: productId }
                 },
             ],
