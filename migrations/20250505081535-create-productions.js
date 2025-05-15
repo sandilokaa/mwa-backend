@@ -30,30 +30,12 @@ module.exports = {
           key: 'id'
         }
       },
-      partName: {
-        type: Sequelize.STRING
-      },
-      category: {
-        type: Sequelize.STRING
-      },
-      drawingNumber: {
-        type: Sequelize.STRING
-      },
-      category: {
-        type: Sequelize.STRING
-      },
       productionStatus: {
         type: Sequelize.ENUM('not yet', 'on going', 'done'),
         defaultValue: 'not yet'
       },
       picProduction: {
         type: Sequelize.STRING
-      },
-      remark: {
-        type: Sequelize.TEXT
-      },
-      prodFile: {
-        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

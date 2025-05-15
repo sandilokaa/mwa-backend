@@ -1,4 +1,4 @@
-const { Productions, Products, sequelize } = require("../models");
+const { Productions, Products, Engineerings, sequelize } = require("../models");
 const { Op } = require("sequelize");
 
 class ProductionRepository {
@@ -9,30 +9,19 @@ class ProductionRepository {
         userId,
         productId,
         engineeringId,
-        partName,
-        category,
-        drawingNumber,
         picProduction,
-        remark,
-        prodFile
     }) {
         const productionCreated = await Productions.create({
             userId,
             productId, 
             engineeringId, 
-            partName,
-            category,
-            drawingNumber,
             picProduction,
-            remark,
-            prodFile
         });
 
         return productionCreated;
     };
 
     /* ------------------- End Handle Create Production  ------------------- */
-
 
     /* ------------------- Handle Get Production  ------------------- */
 
@@ -43,35 +32,27 @@ class ProductionRepository {
             where: {},
             attributes: [
                 'id',
-                'partName',
-                'drawingNumber',
-                'category',
-                'remark',
-                'productionStatus',
+                'productId',
+                'productionStatus'
             ],
             include: [
                 {
                     model: Products,
-                    attributes: ['id', 'name'],
+                    attributes: ['id'],
                     where: { id: productId }
                 },
+                {
+                    model: Engineerings,
+                    attributes: ['partName', 'drawingNumber', 'category', 'remark'],
+                    where: {
+                        ...(partName && { partName: { [Op.like]: `%${partName}%` } }),
+                        ...(category && { category: { [Op.like]: `%${category}%` } }),
+                    }
+                }
             ],
             offset,
             limit,
         };
-        
-        if (partName) {
-            query.where.partName = {
-                [Op.like]: `%${partName}%`
-            };
-        }
-        
-        if (category) {
-            query.where.category = {
-                [Op.like]: `%${category}%`
-            };
-        }
-        
 
         const result = await Productions.findAndCountAll(query);
 
@@ -93,19 +74,13 @@ class ProductionRepository {
             where: { id },
             attributes: [
                 'id',
-                'productId',
-                'partName',
-                'drawingNumber',
-                'category',
                 'picProduction',
                 'productionStatus',
-                'remark',
-                'prodFile',
             ],
             include: [
                 {
-                    model: Products,
-                    attributes: ['id', 'name']    
+                    model: Engineerings,
+                    attributes: ['partName', 'drawingNumber', 'category', 'remark']
                 }
             ],
         };
@@ -118,37 +93,14 @@ class ProductionRepository {
     /* ------------------- End Handle Get Production By Id  ------------------- */
 
 
-    /* ------------------- Handle Delete Production By Id ------------------- */
-
-    static async handleDeleteProductionById({ id }) {
-        const deletedProduction = await Productions.destroy({ where: { id } });
-
-        return deletedProduction;
-    };
-
-    /* ------------------- End Handle Delete Production By Id ------------------- */
-
-
     /* ------------------- Handle Update Production By Id  ------------------- */
 
     static async handleUpdateProductionById({
         id,
-        productId, 
-        partName,
-        drawingNumber,
         picProduction,
-        remark,
-        category,
-        prodFile
     }) {
         const updatedProduction = await Productions.update({
-            productId, 
-            partName,
-            drawingNumber,
             picProduction,
-            remark,
-            category,
-            prodFile
         }, {
             where: { id }
         });
@@ -189,18 +141,19 @@ class ProductionRepository {
             include: [
                 {
                     model: Products,
-                    attributes: ['id', 'name'],
+                    attributes: ['id'],
                     where: { id: productId }
+                },
+                {
+                    model: Engineerings,
+                    attributes: ['id'],
+                    where: {
+                        ...(category && { category: { [Op.like]: `%${category}%` } }),
+                    }
                 },
             ],
             group: ['productionStatus']
         };
-
-        if (category) {
-            query.where.category = {
-                [Op.like]: `%${category}%`
-            };
-        }
 
         const getSummary = await Productions.findAll(query);
 
@@ -208,6 +161,17 @@ class ProductionRepository {
     };
 
     /* ------------------- End Handle Get Summary Status Production  ------------------- */
+
+
+    /* ------------------- Handle Delete Production By Id ------------------- */
+
+    static async handleDeleteProductionByEngineeringId({ engineeringId }) {
+        const deletedProduction = await Productions.destroy({ where: { engineeringId } });
+
+        return deletedProduction;
+    };
+
+    /* ------------------- End Handle Delete Production By Id ------------------- */
 
 };
 

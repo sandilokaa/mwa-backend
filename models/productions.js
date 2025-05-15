@@ -27,17 +27,11 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     productId: DataTypes.INTEGER,
     engineeringId: DataTypes.INTEGER,
-    partName: DataTypes.STRING,
-    category: DataTypes.STRING,
-    drawingNumber: DataTypes.STRING,
-    category: DataTypes.STRING,
     productionStatus: {
       type: DataTypes.ENUM('not yet', 'on going', 'done'),
       defaultValue: 'not yet',
     },
     picProduction: DataTypes.STRING,
-    remark: DataTypes.TEXT,
-    prodFile: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Productions',

@@ -1,80 +1,6 @@
 const productionRepository = require("../repositories/productionRepository");
-const fileRemove = require("../libs/utils/fileRemove");
 
 class ProductionService {
-
-    /* ------------------- Handle Create Production  ------------------- */
-
-    static async handleCreateProduction ({
-        userId,
-        productId,
-        partName,
-        drawingNumber,
-        picProduction,
-        remark,
-        category,
-        prodFile
-    }) {
-        try {
-            // ------------------------- Payload Validation ------------------------- //
-            const requiredFields = {
-                productId,
-                partName,
-                drawingNumber,
-                picProduction,
-                category,
-                remark
-            };
-            
-            const formatFieldName = (key) => key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-
-            for (const [key, value] of Object.entries(requiredFields)) {
-                if (!value) {
-                    return {
-                        status: false,
-                        status_code: 400,
-                        message: `${formatFieldName(key)} is required!`,
-                        data: {
-                            production: null,
-                        },
-                    };
-                }
-            }
-            // ------------------------- End Payload Validation ------------------------- //
-
-            const productionCreated = await productionRepository.handleCreateProduction({
-                userId,
-                productId,
-                partName,
-                drawingNumber,
-                picProduction,
-                remark,
-                category,
-                prodFile
-            });
-
-            return {
-                status: true,
-                status_code: 201,
-                message: "Successfully created data",
-                data: {
-                    production: productionCreated
-                },
-            }
-        } catch (err) {
-            return {
-                status: false,
-                status_code: 500,
-                message: err.message,
-                data: {
-                    production: null
-                },
-            }
-        }
-    };
-
-    /* ------------------- End Handle Create Production  ------------------- */
-
 
     /* ------------------- Handle Get Production  ------------------- */
 
@@ -134,79 +60,22 @@ class ProductionService {
     /* ------------------- End Handle Get Production By Id  ------------------- */
 
 
-    /* ------------------- Handle Delete Production By Id ------------------- */
-
-    static async handleDeleteProductionById({ id }) {
-        try {
-            const getProduction = await productionRepository.handleGetProductionById({ id });
-
-            const deletedProduction = await productionRepository.handleDeleteProductionById({ id });
-
-            fileRemove(getProduction.prodFile);
-
-            return {
-                status: true,
-                status_code: 201,
-                message: "Data deleted successfully",
-                data: {
-                    production: deletedProduction
-                },
-            };
-            
-        } catch (err) {
-            
-            return {
-                status: false,
-                status_code: 500,
-                message: err.message,
-                data: {
-                    production: null,
-                },
-            };
-        }
-    };
-
-    /* ------------------- End Handle Delete Production By Id ------------------- */
-
-
     /* ------------------- Handle Update Production By Id  ------------------- */
 
     static async handleUpdateProductionById ({ 
         id,
-        productId, 
-        partName,
-        drawingNumber,
         picProduction,
-        remark,
-        category,
-        prodFile
     }) {
         try {
             const getProductionById = await productionRepository.handleGetProductionById({ id });
 
             if (getProductionById.id == id) {
-                if (!productId) productId = getProductionById.productId
-                if (!partName) partName = getProductionById.partName
-                if (!drawingNumber) drawingNumber = getProductionById.drawingNumber
                 if (!picProduction) picProduction = getProductionById.picProduction
-                if (!remark) remark = getProductionById.remark
-                if (!category) category = getProductionById.category
-                if (!prodFile) {
-                    prodFile = getProductionById.prodFile;
-                } else {
-                    fileRemove(getProductionById.prodFile)
-                }
             }
 
             const updatedProduction = await productionRepository.handleUpdateProductionById({
                 id,
-                productId, 
-                partName,
-                drawingNumber,
                 picProduction,
-                remark,
-                category,
-                prodFile
             });
 
             return {
