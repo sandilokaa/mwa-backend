@@ -1,6 +1,6 @@
 const engineeringRepository = require("../repositories/engineeringRepository");
 const productionRepository = require("../repositories/productionRepository");
-const fileRemove = require("../libs/utils/fileRemove")
+const fileRemove = require("../libs/utils/fileRemove");
 
 class EngineeringService {
 

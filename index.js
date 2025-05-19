@@ -42,6 +42,7 @@ const highlightIssueController = require("./controllers/highlightIssueController
 const engineeringController = require("./controllers/engineeringController");
 const productionController = require("./controllers/productionController");
 const stylingDesignController = require("./controllers/stylingDesignController");
+const partDesignController = require("./controllers/partDesignController");
 
 // ------------------------- End Import Controllers ------------------------- //
 
@@ -162,8 +163,20 @@ app.get('/api/v1/productions/summary/status/stat', middleware.authenticateAdmin,
 
 app.post('/api/v1/styling-designs/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.array('picture', 10), stylingDesignController.handleCreateStylingDesign);
 app.get('/api/v1/styling-designs/search', middleware.authenticateAdmin, stylingDesignController.handleGetStylingDesign);
+app.get('/api/v1/styling-designs/:id', middleware.authenticateAdmin, stylingDesignController.handleGetStylingDesignById);
 
 /* -------------- End Styling Design Endpoint -------------- */
+
+
+/* -------------- Part Design Endpoint -------------- */
+
+app.post('/api/v1/part-designs/create', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('picture'), partDesignController.handleCreatePartDesign);
+app.get('/api/v1/part-designs/search', middleware.authenticateAdmin, partDesignController.handleGetPartDesign);
+app.get('/api/v1/part-designs/:id', middleware.authenticateAdmin, partDesignController.handleGetPartDesignById);
+app.delete('/api/v1/part-designs/delete/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), partDesignController.handleDeletePartDesignById);
+app.put('/api/v1/part-designs/update/:id', middleware.authenticateAdmin, middleware.authorizeRole(ROLES.RNE), fileUpload.single('picture'), partDesignController.handleUpdatePartDesignById);
+
+/* -------------- End Part Design Endpoint -------------- */
 
 
 // ------------------------- End Define Routes ------------------------- //
