@@ -367,7 +367,7 @@ class HighlightIssueService {
 
     /* ------------------- Handle Revision Date Highlight Issue  ------------------- */
 
-    static async handleRevisionDateHighilightIssue({ id, statusIssue, revisionDate }) {
+    static async handleRevisionDateHighilightIssue({ id, revisionDate, statusIssue }) {
         try {
             const getHighlightIssue = await highlightIssueRepository.handleGetHighlightIssueById({ id });
 
@@ -378,8 +378,8 @@ class HighlightIssueService {
 
             const updatedRevisionDate = await highlightIssueRepository.handleRevisionDateHighilightIssue({ 
                 id,
-                statusIssue: "done",
-                revisionDate
+                revisionDate,
+                statusIssue
             });
         
             return {
