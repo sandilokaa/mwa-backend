@@ -213,7 +213,7 @@ const handleGetSummaryHighlightIssue = async(req, res) => {
 const handleRevisionDateHighilightIssue = async(req, res) => {
     const { id } = req.params;
 
-    const { statusIssue, revisionDate } = req.body;
+    const { revisionDate, statusIssue } = req.body;
 
     const { status, status_code, message, data} = await highlightIssueService.handleRevisionDateHighilightIssue({
         id,

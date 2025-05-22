@@ -161,12 +161,21 @@ static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
 
         const query = {
             where: {
-                dueDate: {
-                    [Op.gte]: targetDateMin,
-                    [Op.lte]: targetDateMax
-                },
+                [Op.or]: [
+                    {
+                        dueDate: {
+                            [Op.gte]: targetDateMin,
+                            [Op.lte]: targetDateMax
+                        },
+                    }, {
+                        revisionDate: {
+                            [Op.gte]: targetDateMin,
+                            [Op.lte]: targetDateMax
+                        },
+                    }
+                ],
                 statusIssue: {
-                    [Op.not]: 'finish'
+                    [Op.not]: 'done'
                 }
             },
             attributes: [
@@ -297,12 +306,12 @@ static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
 
     static async handleRevisionDateHighilightIssue({ 
         id,
-        statusIssue,
-        revisionDate
+        revisionDate,
+        statusIssue
     }) {
         const updatedRevisionDate = await HighlightIssues.update({
-            statusIssue,
-            revisionDate
+            revisionDate,
+            statusIssue
         }, {
             where: { id }
         });
