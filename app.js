@@ -35,6 +35,7 @@ app.use("/api/v1/engineerings", require("./routes/engineeringRoutes"));
 app.use("/api/v1/productions", require("./routes/productionRoutes"));
 app.use("/api/v1/styling-designs", require("./routes/stylingDesignRoutes"));
 app.use("/api/v1/part-designs", require("./routes/partDesignRoutes"));
+app.use("/api/v1/photo-updates", require("./routes/photoUpdateRoutes"));
 
 // Start updaters
 startProcurementStatusUpdater();
