@@ -95,6 +95,57 @@ class StylingDesignRepository {
 
     /* ------------------- End Handle Get Styling Design By Id  ------------------- */
 
+
+    /* ------------------- Handle Get Styling Design Image By Id  ------------------- */
+
+    static async handleGetStylingDesignImageById({ imageId }) {
+        const query = {
+            where: { id: imageId },
+            attributes: [
+                'id',
+                'stylingDesignId',
+                'picture',
+            ],
+        };
+        
+        const getStylingDesignImageById = await StylingDesignImages.findOne(query);
+
+        return getStylingDesignImageById;
+    };
+
+    /* ------------------- End Handle Get Styling Design Image By Id  ------------------- */
+
+
+    /* ------------------- Handle Update Styling Design Image By Id  ------------------- */
+
+    static async handleUpdateStylingDesignById({
+        id,
+        productId,
+        name,
+    }) {
+        const updatedStylingDesign = await StylingDesigns.update({
+            productId,
+            name,
+        }, {
+            where: { id }
+        });
+
+        return updatedStylingDesign;
+    };
+
+    /* ------------------- End Handle Update Styling Design Image By Id  ------------------- */
+
+
+    /* ------------------- Handle Delete Styling Design Image By Id  ------------------- */
+
+    static async handleDeleteStylingDesignImageById({ imageId }) {
+        const deletedStylingDesignImage = await StylingDesignImages.destroy({ where: { id: imageId } });
+
+        return deletedStylingDesignImage;
+    };
+
+    /* ------------------- End Handle Delete Styling Design Image By Id  ------------------- */
+
 };
 
 module.exports = StylingDesignRepository;

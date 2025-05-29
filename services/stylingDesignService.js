@@ -1,4 +1,5 @@
 const stylingDesignRepository = require("../repositories/stylingDesignRepository");
+const fileRemove = require("../libs/utils/fileRemove");
 
 class StylingDesignService {
 
@@ -43,7 +44,7 @@ class StylingDesignService {
             const stylingDesignImageCreated = await stylingDesignRepository.handleCreateStylingDesignImages({
                 stylingDesignId: stylingDesignCreated.id,
                 picture
-            })
+            });
 
             return {
                 status: true,
@@ -126,6 +127,73 @@ class StylingDesignService {
     };
 
     /* ------------------- End Handle Get Styling Design By Id  ------------------- */
+
+
+    /* ------------------- Handle Update Styling Design By Id  ------------------- */
+
+    static async handleUpdateStylingDesignById ({ 
+        id,
+        productId,
+        name,
+        deletedImageId,
+        picture
+    }) {
+        try {
+            const getStylingDesignById = await stylingDesignRepository.handleGetStylingDesignById({ id });
+
+            if (getStylingDesignById.id == id) {
+                if (!productId) productId = getStylingDesignById.productId
+                if (!name) name = getStylingDesignById.name
+            }
+
+            const updatedStylingDesign = await stylingDesignRepository.handleUpdateStylingDesignById({
+                id,
+                productId,
+                name,
+            });
+
+            if (deletedImageId && deletedImageId.length > 0) {
+                const idsToDelete = Array.isArray(deletedImageId)
+                    ? deletedImageId.map(id => Number(id))
+                    : [Number(deletedImageId)];
+
+                for (const imageId of idsToDelete) {
+                    const image = await stylingDesignRepository.handleGetStylingDesignImageById({ imageId });
+                    if (image) {
+                        await stylingDesignRepository.handleDeleteStylingDesignImageById({ imageId });
+                        fileRemove(image.picture);
+                    }
+                }
+            }
+
+            const stylingDesignImageCreated = await stylingDesignRepository.handleCreateStylingDesignImages({
+                stylingDesignId: getStylingDesignById.id,
+                picture
+            });
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Successfully updated data",
+                data: {
+                    stylingDesign: updatedStylingDesign,
+                    stylingDesignImageCreate: stylingDesignImageCreated
+                },
+            }
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    stylingDesign: null,
+                    stylingDesignImageCreate: null
+                },
+            }
+        }
+    };
+
+    /* ------------------- End Handle Update Styling Design By Id  ------------------- */
 
 };
 
