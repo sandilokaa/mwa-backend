@@ -146,6 +146,24 @@ class StylingDesignRepository {
 
     /* ------------------- End Handle Delete Styling Design Image By Id  ------------------- */
 
+
+    /* ------------------- Handle Update Styling Design Image By Id  ------------------- */
+
+    static async handleUpdateStylingDesignImageById({
+        picture,
+        imageId,
+    }) {
+        const updatedStylingDesignImage = await StylingDesignImages.update({
+            picture,
+        }, {
+            where: { id: imageId }
+        });
+
+        return updatedStylingDesignImage;
+    };
+
+    /* ------------------- End Handle Update Styling Design Image By Id  ------------------- */
+
 };
 
 module.exports = StylingDesignRepository;

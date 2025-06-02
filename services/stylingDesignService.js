@@ -136,7 +136,8 @@ class StylingDesignService {
         productId,
         name,
         deletedImageId,
-        picture
+        picture,
+        updatedImage
     }) {
         try {
             const getStylingDesignById = await stylingDesignRepository.handleGetStylingDesignById({ id });
@@ -152,12 +153,22 @@ class StylingDesignService {
                 name,
             });
 
+            let stylingDesignImageCreated = [];
+
+            if (picture && picture.length > 0) {
+                stylingDesignImageCreated = await stylingDesignRepository.handleCreateStylingDesignImages({
+                    stylingDesignId: getStylingDesignById.id,
+                    picture
+                });
+            }
+
             if (deletedImageId && deletedImageId.length > 0) {
                 const idsToDelete = Array.isArray(deletedImageId)
                     ? deletedImageId.map(id => Number(id))
                     : [Number(deletedImageId)];
 
                 for (const imageId of idsToDelete) {
+                    if (imageId === undefined) continue;
                     const image = await stylingDesignRepository.handleGetStylingDesignImageById({ imageId });
                     if (image) {
                         await stylingDesignRepository.handleDeleteStylingDesignImageById({ imageId });
@@ -166,18 +177,28 @@ class StylingDesignService {
                 }
             }
 
-            const stylingDesignImageCreated = await stylingDesignRepository.handleCreateStylingDesignImages({
-                stylingDesignId: getStylingDesignById.id,
-                picture
-            });
+            if (updatedImage && updatedImage.length > 0) {
+                for (const item of updatedImage) {
+                    const { imageId, newImagePath } = item;
+                    if (!imageId || isNaN(Number(imageId))) continue;
+                    const image = await stylingDesignRepository.handleGetStylingDesignImageById({ imageId });
+                    if (image) {
+                        fileRemove(image.picture);
+
+                        await stylingDesignRepository.handleUpdateStylingDesignImageById({
+                            imageId,
+                            picture: newImagePath
+                        });
+                    }
+                }
+            }
 
             return {
                 status: true,
                 status_code: 201,
                 message: "Successfully updated data",
                 data: {
-                    stylingDesign: updatedStylingDesign,
-                    stylingDesignImageCreate: stylingDesignImageCreated
+                    stylingDesign: updatedStylingDesign
                 },
             }
         } catch (err) {
@@ -186,8 +207,7 @@ class StylingDesignService {
                 status_code: 500,
                 message: err.message,
                 data: {
-                    stylingDesign: null,
-                    stylingDesignImageCreate: null
+                    stylingDesign: null
                 },
             }
         }
