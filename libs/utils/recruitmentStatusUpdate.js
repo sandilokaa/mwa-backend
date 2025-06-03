@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const recruitmentService = require('../../services/recruitmentService');
+const recruitmentService = require('../../services/people/recruitmentService');
 
 const startRecruitmentStatusUpdater = () => {
     cron.schedule('* * * * *', async () => {

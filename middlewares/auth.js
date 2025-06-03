@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const authRepository = require('../repositories/authRepository');
+const authRepository = require('../repositories/user/authRepository');
 const { ROLES } = require("../libs/consts/role");
 
 const authenticateAdmin = async (req, res, next) => {

@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const procurementService = require('../../services/procurementService');
+const procurementService = require('../../services/project/developmentStatus/procurementService');
 
 const startProcurementStatusUpdater = () => {
     cron.schedule('* * * * *', async () => {
