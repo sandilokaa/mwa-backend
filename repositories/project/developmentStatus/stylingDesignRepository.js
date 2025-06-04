@@ -20,7 +20,7 @@ class StylingDesignRepository {
     /* ------------------- End Handle Create Styling Design  ------------------- */
 
 
-    /* ------------------- Handle Create Styling Design  ------------------- */
+    /* ------------------- Handle Create Styling Design Images  ------------------- */
 
     static async handleCreateStylingDesignImages ({
         stylingDesignId,
