@@ -5,7 +5,7 @@ const fs = require("fs");
 
 const handleDownloadFile = async(req, res) => {
     const filename = req.params[0];
-    const filePath = path.resolve(__dirname, "../", filename);
+    const filePath = path.resolve(__dirname, "../../", filename);
 
     if (!fs.existsSync(filePath)) {
         return res.status(404).send("File not found");
