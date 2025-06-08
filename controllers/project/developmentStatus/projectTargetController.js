@@ -71,8 +71,51 @@ const handleGetProjectTargetById = async(req, res) => {
 /* ------------------- End Handle Get Project Target By Id  ------------------- */
 
 
+/* ------------------- Handle Update Project Target By Id  ------------------- */
+
+const handleUpdateProjectTargetById = async(req, res) => {
+    const { id } = req.params;
+    const { 
+        productId,
+        name,
+        information,
+        deletedImageId,
+        updatedImageId
+    } = req.body;
+
+    const picturePaths = req.files['picture']?.map(file => file.path) || [];
+
+    const updatedImagePaths = req.files['updatedImage']?.map(file => file.path) || [];
+    const updatedImageIds = Array.isArray(updatedImageId) ? updatedImageId : [updatedImageId];
+
+    const updatedImage = updatedImageIds.map((imageId, index) => ({
+        imageId,
+        newImagePath: updatedImagePaths[index]
+    }));
+
+    const { status, status_code, message, data} = await projectTargetService.handleUpdateProjectTargetById({
+        id,
+        productId,
+        name,
+        information,
+        deletedImageId,
+        picture: picturePaths,
+        updatedImage
+    });
+
+    res.status(status_code).send({
+        status: status,
+        message: message,
+        data: data,
+    });
+};
+
+/* ------------------- End Handle Update Project Target By Id  ------------------- */
+
+
 module.exports = {
     handleCreateProjectTarget,
     handleGetProjectTarget,
-    handleGetProjectTargetById
+    handleGetProjectTargetById,
+    handleUpdateProjectTargetById
 }

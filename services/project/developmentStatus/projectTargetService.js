@@ -131,6 +131,96 @@ class ProjectTargetService {
 
     /* ------------------- End Handle Get Project Target By Id  ------------------- */
 
+
+    /* ------------------- Handle Update Project Target By Id  ------------------- */
+
+    static async handleUpdateProjectTargetById ({ 
+        id,
+        productId,
+        name,
+        information,
+        deletedImageId,
+        picture,
+        updatedImage
+    }) {
+        try {
+            const getProjectTargetById = await projectTargetRepository.handleGetProjectTargetById({ id });
+
+            if (getProjectTargetById.id == id) {
+                if (!productId) productId = getProjectTargetById.productId
+                if (!name) name = getProjectTargetById.name
+                if (!information) information = getProjectTargetById.information
+            }
+
+            const updatedProjectTarget = await projectTargetRepository.handleUpdateProjectTargetById({
+                id,
+                productId,
+                name,
+                information
+            });
+
+            let projectTargetImageCreated = [];
+
+            if (picture && picture.length > 0) {
+                projectTargetImageCreated = await projectTargetRepository.handleCreateProjectTargetImages({
+                    projectTargetId: getProjectTargetById.id,
+                    picture
+                });
+            }
+
+            if (deletedImageId && deletedImageId.length > 0) {
+                const idsToDelete = Array.isArray(deletedImageId)
+                    ? deletedImageId.map(id => Number(id))
+                    : [Number(deletedImageId)];
+
+                for (const imageId of idsToDelete) {
+                    if (imageId === undefined) continue;
+                    const image = await projectTargetRepository.handleGetProjectTargetImageById({ imageId });
+                    if (image) {
+                        await projectTargetRepository.handleDeleteProjectTargetImageById({ imageId });
+                        fileRemove(image.picture);
+                    }
+                }
+            }
+
+            if (updatedImage && updatedImage.length > 0) {
+                for (const item of updatedImage) {
+                    const { imageId, newImagePath } = item;
+                    if (!imageId || isNaN(Number(imageId))) continue;
+                    const image = await projectTargetRepository.handleGetProjectTargetImageById({ imageId });
+                    if (image) {
+                        fileRemove(image.picture);
+
+                        await projectTargetRepository.handleUpdateProjectTargetImageById({
+                            imageId,
+                            picture: newImagePath
+                        });
+                    }
+                }
+            }
+
+            return {
+                status: true,
+                status_code: 201,
+                message: "Successfully updated data",
+                data: {
+                    projectTarget: updatedProjectTarget
+                },
+            }
+        } catch (err) {
+            return {
+                status: false,
+                status_code: 500,
+                message: err.message,
+                data: {
+                    projectTarget: null
+                },
+            }
+        }
+    };
+
+    /* ------------------- End Handle Update Project Target By Id  ------------------- */
+
 };
 
 module.exports = ProjectTargetService;

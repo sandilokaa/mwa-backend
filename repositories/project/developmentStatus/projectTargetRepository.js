@@ -88,7 +88,7 @@ class ProjectTargetRepository {
             include: [
                 {
                     model: ProjectTargetImages,
-                    attributes: ['id', 'stylingDesignId', 'picture']
+                    attributes: ['id', 'projectTargetId', 'picture']
                 }
             ],
         };
@@ -99,6 +99,77 @@ class ProjectTargetRepository {
     };
 
     /* ------------------- End Handle Get Project Target By Id  ------------------- */
+
+
+    /* ------------------- Handle Get Project Target Image By Id  ------------------- */
+
+    static async handleGetProjectTargetImageById({ imageId }) {
+        const query = {
+            where: { id: imageId },
+            attributes: [
+                'id',
+                'projectTargetId',
+                'picture',
+            ],
+        };
+        
+        const getProjectTargetImageById = await ProjectTargetImages.findOne(query);
+
+        return getProjectTargetImageById;
+    };
+
+    /* ------------------- End Handle Get Project Target Image By Id  ------------------- */
+
+
+    /* ------------------- Handle Update Project Target Image By Id  ------------------- */
+
+    static async handleUpdateProjectTargetById({
+        id,
+        productId,
+        name,
+        information
+    }) {
+        const updatedProjectTarget = await ProjectTargets.update({
+            productId,
+            name,
+            information
+        }, {
+            where: { id }
+        });
+
+        return updatedProjectTarget;
+    };
+
+    /* ------------------- End Handle Update Project Target Image By Id  ------------------- */
+
+
+    /* ------------------- Handle Delete Project Target Image By Id  ------------------- */
+
+    static async handleDeleteProjectTargetImageById({ imageId }) {
+        const deletedProjectTargetImage = await ProjectTargetImages.destroy({ where: { id: imageId } });
+
+        return deletedProjectTargetImage;
+    };
+
+    /* ------------------- End Handle Delete Project Target Image By Id  ------------------- */
+
+
+    /* ------------------- Handle Update Project Target Image By Id  ------------------- */
+
+    static async handleUpdateProjectTargetImageById({
+        picture,
+        imageId,
+    }) {
+        const updatedProjectTargetImage = await ProjectTargetImages.update({
+            picture,
+        }, {
+            where: { id: imageId }
+        });
+
+        return updatedProjectTargetImage;
+    };
+
+    /* ------------------- End Handle Update Project Target Image By Id  ------------------- */
 
 };
 
