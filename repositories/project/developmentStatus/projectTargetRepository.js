@@ -61,7 +61,7 @@ class ProjectTargetRepository {
                 {
                     model: ProjectTargetImages,
                     attributes: ['picture'],
-                    limit: 1
+                    // limit: 1
                 }
             ],
         };
