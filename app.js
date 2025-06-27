@@ -27,7 +27,7 @@ app.use("/storages", express.static(path.join(__dirname, "storages")));
 
 // Register all routes
 app.use("/api/v1/auth", require("./routes/user/authRoutes"));
-app.use("/api/v1/products", require("./routes/project/product/productRoutes"));
+app.use("/api/v1/products", require("./routes/product/productRoutes"));
 app.use("/api/v1/procurements", require("./routes/project/developmentStatus/procurementRoutes"));
 app.use("/api/v1/recruitments", require("./routes/people/recruitmentRoutes"));
 app.use("/api/v1/highlight-issues", require("./routes/project/highlightIssue/highlightIssueRoutes"));

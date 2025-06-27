@@ -34,6 +34,8 @@ module.exports = (sequelize, DataTypes) => {
   Products.init({
     userId: DataTypes.INTEGER,
     name: DataTypes.STRING,
+    tagline: DataTypes.STRING,
+    description: DataTypes.TEXT,
     picture: DataTypes.TEXT
   }, {
     sequelize,
