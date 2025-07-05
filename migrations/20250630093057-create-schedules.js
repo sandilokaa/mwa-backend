@@ -35,13 +35,6 @@ module.exports = {
       endDate: {
         type: Sequelize.DATE
       },
-      batch: {
-        type: Sequelize.INTEGER
-      },
-      statusSchedule: {
-        type: Sequelize.ENUM('not started', 'on progress', 'done'),
-        defaultValue: 'not started',
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

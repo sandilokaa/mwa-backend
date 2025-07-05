@@ -27,11 +27,6 @@ module.exports = (sequelize, DataTypes) => {
     pic: DataTypes.STRING,
     startDate: DataTypes.DATE,
     endDate: DataTypes.DATE,
-    batch: DataTypes.INTEGER,
-    statusSchedule: {
-      type: DataTypes.ENUM('not started', 'on progress', 'done'),
-      defaultValue: 'not started',
-    }
   }, {
     sequelize,
     modelName: 'Schedules',
