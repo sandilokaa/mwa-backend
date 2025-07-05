@@ -30,8 +30,7 @@ const handleCreateSchedule = async(req, res) => {
         scheduleName,
         pic,
         startDate,
-        endDate,
-        batch
+        endDate
     } = req.body;
 
     const { status, status_code, message, data} = await scheduleService.handleCreateSchedule({
@@ -40,8 +39,7 @@ const handleCreateSchedule = async(req, res) => {
         scheduleName,
         pic,
         startDate,
-        endDate,
-        batch
+        endDate
     });
 
     res.status(status_code).send({

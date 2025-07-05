@@ -101,8 +101,7 @@ class ScheduleRepository {
         scheduleName,
         pic,
         startDate,
-        endDate,
-        batch
+        endDate
     }) {
         const scheduleCreated = await Schedules.create({
             userId,
@@ -110,8 +109,7 @@ class ScheduleRepository {
             scheduleName,
             pic,
             startDate,
-            endDate,
-            batch
+            endDate
         });
 
         return scheduleCreated;

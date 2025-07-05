@@ -39,8 +39,7 @@ class ScheduleService {
         scheduleName,
         pic,
         startDate,
-        endDate,
-        batch
+        endDate
     }) {
         try {
             // ------------------------- Payload Validation ------------------------- //
@@ -68,24 +67,13 @@ class ScheduleService {
             }
             // ------------------------- End Payload Validation ------------------------- //
 
-            const getLastBatch = await scheduleRepository.handleGetLastBatchForProduct({ productId });
-            
-            let targetBatch = 1;
-
-            if (getLastBatch) {
-                const isLastBatchFinished = await scheduleRepository.isBatchFinished({ productId, getLastBatch });
-                console.log(isLastBatchFinished);
-                targetBatch = isLastBatchFinished ? parseInt(getLastBatch.batch) + 1 : parseInt(getLastBatch.batch);
-            }
-
             const scheduleCreated = await scheduleRepository.handleCreateSchedule({
                 userId,
                 productId,
                 scheduleName,
                 pic,
                 startDate,
-                endDate,
-                batch: targetBatch
+                endDate
             });
 
             return {
