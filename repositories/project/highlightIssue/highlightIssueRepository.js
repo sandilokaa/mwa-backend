@@ -34,7 +34,7 @@ class HighlightIssueRepository {
 
     /* ------------------- Handle Get Highlight Issue  ------------------- */
 
-static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
+    static async handleGetHighlightIssue({ productId, itemName, page, limit }) {
         const offset = (page - 1) * limit;
 
         const query = {
