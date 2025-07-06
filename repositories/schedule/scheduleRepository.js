@@ -35,62 +35,35 @@ class ScheduleRepository {
     /* ------------------- End Handle Get Schedule  ------------------- */
 
 
-    /* ------------------- Handle Get Last Batch For Product  ------------------- */
+    /* ------------------- Handle Get Schedule By Id  ------------------- */
 
-    static async handleGetLastBatchForProduct({ productId }) {
+    static async handleGetScheduleById({ id }) {
+
         const query = {
-            where: { productId },
-            attributes: [
-                'batch'
-            ],
-            include: [
-                {
-                    model: Products,
-                    attributes: ['id', 'name'],
-                    where: { id: productId }
-                },
-            ],
-            order: [['batch', 'DESC']]
-        };
-        
-
-        const getLastBatch = await Schedules.findOne(query);
-
-        return getLastBatch;
-    };
-
-    /* ------------------- End Handle Get Last Batch For Product  ------------------- */
-
-
-    /* ------------------- Is Last Batch Finished  ------------------- */
-
-    static async isBatchFinished({ productId, getLastBatch }) {
-        const query = {
-            where: {
-                productId, 
-                batch: getLastBatch,
-            },
+            where: {id},
             attributes: [
                 'id',
                 'productId',
-                'batch',
-                'statusSchedule'
+                'scheduleName',
+                'pic',
+                'startDate',
+                'endDate',
             ],
             include: [
                 {
                     model: Products,
                     attributes: ['id', 'name'],
-                    where: { id: productId }
                 },
             ],
         };
+        
 
-        const result = await Schedules.findAll(query);
+        const getSchedule = await Schedules.findOne(query);
 
-        return result;
+        return getSchedule;
     };
 
-    /* ------------------- End Is Last Batch Finished  ------------------- */
+    /* ------------------- End Handle Get Schedule By Id  ------------------- */
 
 
     /* ------------------- Handle Create Schedule  ------------------- */
@@ -116,6 +89,45 @@ class ScheduleRepository {
     };
 
     /* ------------------- End Handle Create Schedule  ------------------- */
+
+
+    /* ------------------- Handle Update Schedule  ------------------- */
+
+    static async handleUpdateScheduleById({ 
+        id, 
+        productId,
+        scheduleName,
+        pic,
+        startDate,
+        endDate
+    }) {
+        const updatedSchedule = await Schedules.update({
+            productId,
+            scheduleName,
+            pic,
+            startDate,
+            endDate
+        }, {
+            where: { id }
+        });
+
+        return updatedSchedule;
+    };
+
+    /* ------------------- End Handle Update Schedule  ------------------- */
+
+
+    /* ------------------- Handle Delete Schedule By Id  ------------------- */
+
+    static async handleDeleteScheduleById({ id }) {
+
+        const deletedSchedule = await Schedules.destroy({ where: { id } });
+
+        return deletedSchedule;
+
+    };
+
+    /* ------------------- End Handle Delete Schedule By Id  ------------------- */
 
 };
 
