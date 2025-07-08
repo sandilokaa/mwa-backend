@@ -24,7 +24,11 @@ const handleAdminLogin = async(req, res) => {
     res.status(status_code).send({
         status: status,
         message: message,
-        data: data.role ?? null,
+        data: {
+            id: data.id ?? null,
+            email: data.email ?? null,
+            role: data.role ?? null,
+        }
     });
 
 };
@@ -62,7 +66,7 @@ const handleAdminLogout = async(req, res) => {
     });
 
     res.status(200).json({
-    message: "Logout successful!",
+        message: "Logout successful!",
     });
 
 };

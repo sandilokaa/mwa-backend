@@ -67,6 +67,7 @@ class AuthService {
                     const token = jwt.sign({
                         id: getAdminByEmail.id,
                         email: getAdminByEmail.email,
+                        role: getAdminByEmail.role
                     },
                         process.env.SECRET,
                         {
@@ -79,6 +80,8 @@ class AuthService {
                         message: "Admin login successfully!",
                         data: {
                             token,
+                            id: getAdminByEmail.id,
+                            email: getAdminByEmail.email,
                             role:getAdminByEmail.role
                         },
                     };
