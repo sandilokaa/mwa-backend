@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
 
       Products.hasMany(models.Schedules);
 
+      // Products.hasMany(models.BudgetStatuses);
+
+      Products.hasMany(models.BudgetLimits);
+
     }
   }
   Products.init({
